@@ -9,7 +9,7 @@
 <body>
 <header>
   <h1>Perfect Abs</h1>
-  <input type="date" id="date">
+  <span><input type="date" id="date"> <button id="settings" aria-label="설정">⚙</button></span>
 </header>
 <main>
   <section class="card" id="summary">
@@ -42,7 +42,7 @@
     <h2>프로필 · 목표</h2>
     <p>남 28세 · 181cm · 87kg (BMI 26.6) · 목표: 체지방 감량 + 근육 유지</p>
     <p>BMR 1,866 · TDEE 2,800 · 하루 목표 <b>2,350 kcal</b> (유지 −450)</p>
-    <p class="note">📌 = 저장소(data/log.json)에 기록된 항목. 앱에서 추가한 항목은 이 브라우저에만 저장됩니다.</p>
+    <p class="note" id="status"></p>
     <p class="note">외식·배달은 평균 추정치라 오차 ±10% 내외. 2주 기록 후 체중 변화로 목표 조정.</p>
   </section>
 </main>
