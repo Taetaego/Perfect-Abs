@@ -121,6 +121,14 @@
       "carb": 0,
       "protein": 60,
       "fat": 3
+    },
+    {
+      "meal": "식사",
+      "food": "퀴노아 50ml (조리 전, 약 36g 기준)",
+      "kcal": 132,
+      "carb": 23,
+      "protein": 5,
+      "fat": 2
     }
   ]
 }
