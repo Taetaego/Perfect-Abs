@@ -97,6 +97,14 @@
       "carb": 0,
       "protein": 0,
       "fat": 14
+    },
+    {
+      "meal": "간식",
+      "food": "농협 들기름 광천김 2봉 (봉당 20kcal, 라벨 기준)",
+      "kcal": 40,
+      "carb": 2,
+      "protein": 4,
+      "fat": 3
     }
   ]
 }
