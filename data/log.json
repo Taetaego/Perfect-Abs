@@ -549,6 +549,30 @@
       "carb": 26,
       "protein": 3,
       "fat": 3
+    },
+    {
+      "meal": "간식",
+      "food": "하루견과 시그니처 베리스 1봉 (22g, 라벨 129kcal)",
+      "kcal": 129,
+      "carb": 7,
+      "protein": 3,
+      "fat": 10
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g 기준)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
+    },
+    {
+      "meal": "간식",
+      "food": "일반 호두과자 2개 (개당 약 70kcal 가정)",
+      "kcal": 140,
+      "carb": 26,
+      "protein": 3,
+      "fat": 3
     }
   ]
 }
