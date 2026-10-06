@@ -605,6 +605,22 @@
       "carb": 10,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 280g (생 기준, 조리유 없음)",
+      "kcal": 302,
+      "carb": 0,
+      "protein": 65,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "진라면 스틱 10g (5g 스프 12kcal 기준 2배)",
+      "kcal": 24,
+      "carb": 4,
+      "protein": 2,
+      "fat": 0
     }
   ]
 }
