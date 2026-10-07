@@ -34,6 +34,7 @@ for date in sorted(log):
     if date >= CARRY_START:
         goal = KCAL_GOAL - min(CARRY_MAX_PER_DAY, carry)
         carry = max(0, carry + net - KCAL_GOAL)
+    over = max(0, net - goal)
 
     days.append({
         "d": date,
@@ -45,6 +46,8 @@ for date in sorted(log):
         "protein": round(protein),
         "fat": round(fat),
         "carbGoal": round(min(CARB_CAP, CARB_BASE + burn / 8)),
+        "over": round(over),
+        "carry": round(carry),
     })
 
 OUT.mkdir(parents=True, exist_ok=True)
