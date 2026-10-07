@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<title>Diet</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090d'/%3E%3Cpath d='M7 22V10h5.5a4 4 0 010 8H7' fill='none' stroke='%234d7cff' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 모바일 한 컬럼. 상단 고정 탭 → 선택 기간 → 영양소(단백질 먼저). */
+:root{
+  --bg:#08090d; --s1:#10121a; --s2:#171a24; --line:#232733;
+  --fg:#f2f4f8; --mut:#8890a4; --dim:#4a5063;
+  --pro:#4d7cff; --pro2:#29d3ff; --carb:#ffb020; --fat:#ff4fa3;
+  --ok:#3ddc97; --over:#ff6a3d;
+  --disp:"Big Shoulders Display","Noto Sans KR",sans-serif;
+  --body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--body)}
+body{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.disp{font-family:var(--disp);font-weight:900;letter-spacing:.01em;text-transform:uppercase}
+
+/* 상단 바 */
+header{position:sticky;top:0;z-index:5;background:rgba(8,9,13,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:flex-end;justify-content:space-between;padding:14px 0 10px}
+.logo{font:900 34px/0.9 var(--disp);letter-spacing:.02em}
+.logo i{font-style:normal;color:var(--pro)}
+.dday{font:700 12px var(--mono);color:var(--mut);text-align:right;line-height:1.35}
+.dday b{display:block;font:900 24px/1 var(--disp);color:var(--fg);letter-spacing:.02em}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--s1);border-radius:12px;padding:4px;margin-bottom:12px}
+.tabs button{border:0;background:none;color:var(--mut);font:700 14px var(--body);padding:9px 0;border-radius:9px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--fg);color:var(--bg)}
+
+/* 기간 이동 */
+.nav{display:flex;align-items:center;justify-content:space-between;margin:18px 0 14px}
+.nav button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--s1);color:var(--fg);font:700 20px var(--mono);cursor:pointer}
+.nav button:disabled{opacity:.25}
+.nav .t{text-align:center;line-height:1.2}
+.nav .t b{font:900 26px var(--disp);letter-spacing:.02em}
+.nav .t span{display:block;font:500 12px var(--mono);color:var(--mut)}
+
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.lbl{font:700 11px var(--mono);letter-spacing:.12em;color:var(--mut);text-transform:uppercase;margin:0 0 10px}
+
+/* 단백질 히어로 */
+.hero{position:relative;overflow:hidden;border:0;background:linear-gradient(155deg,#1a2a6e 0%,#0f1a45 48%,#10121a 100%)}
+.hero:before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(41,211,255,.35),transparent 65%)}
+.hero .row{display:flex;align-items:flex-end;gap:10px;position:relative}
+.hero .big{font:900 92px/0.82 var(--disp);letter-spacing:-.01em}
+.hero .of{font:700 15px var(--mono);color:#b9c6ff;padding-bottom:6px}
+.hero .pct{margin-left:auto;font:900 34px/1 var(--disp);color:var(--pro2);padding-bottom:4px}
+.pbar{position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.1);margin:16px 0 8px;overflow:hidden}
+.pbar i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:linear-gradient(90deg,var(--pro),var(--pro2))}
+.pbar b{position:absolute;top:0;bottom:0;width:2px;background:#fff}
+.hero .sub{display:flex;justify-content:space-between;font:500 13px var(--mono);color:#b9c6ff;position:relative}
+
+/* 칼로리 링 */
+.ringbox{display:flex;align-items:center;gap:16px}
+.ring{flex:none;width:150px;height:150px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring .c b{font:900 38px/1 var(--disp)}
+.ring .c span{font:500 11px var(--mono);color:var(--mut);margin-top:2px}
+.kv{flex:1;display:grid;gap:10px}
+.kv div{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:7px}
+.kv div:last-child{border:0;padding:0}
+.kv span{font-size:13px;color:var(--mut)}
+.kv b{font:700 16px var(--mono)}
+
+/* 보조 영양소 */
+.macros{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mac{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:14px}
+.mac .n{display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.mac .v{font:900 38px/1 var(--disp);margin:6px 0 8px}
+.mac .v small{font:500 12px var(--mono);color:var(--mut);margin-left:4px}
+.bar{height:8px;border-radius:4px;background:var(--s2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+.mac .r{font:500 12px var(--mono);color:var(--mut);margin-top:7px}
+
+/* 통계 */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:12px 10px}
+.stat span{display:block;font:700 10px var(--mono);letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+.stat b{display:block;font:900 30px/1.1 var(--disp);margin-top:4px}
+.stat em{font:500 11px var(--mono);color:var(--mut);font-style:normal}
+.pro{color:var(--pro2)} .ok{color:var(--ok)} .over{color:var(--over)}
+
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+svg.chart text{font:500 10px var(--mono);fill:var(--mut)}
+svg.chart .g{stroke:var(--line);stroke-width:1}
+svg.chart .goal{stroke:#fff;stroke-width:1.5;stroke-dasharray:4 4;opacity:.75}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font:500 11px var(--mono);color:var(--mut);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* 달력 */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .h{font:700 10px var(--mono);color:var(--dim);text-align:center;padding-bottom:2px}
+.cell{position:relative;aspect-ratio:1/1.12;border-radius:10px;background:var(--s2);border:0;color:var(--fg);padding:5px 4px 0;text-align:left;font-family:var(--mono);overflow:hidden;cursor:pointer}
+.cell.empty{background:none;cursor:default}
+.cell .d{font-size:10px;color:var(--mut)}
+.cell .k{display:block;font-size:11px;font-weight:700;margin-top:2px}
+.cell .p{position:absolute;left:4px;right:4px;bottom:4px;height:4px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden}
+.cell .p i{display:block;height:100%;background:linear-gradient(90deg,var(--pro),var(--pro2))}
+.cell.lo{background:#14243d}.cell.ok{background:#12301f}.cell.hi{background:#3a1c14}
+.cell.today{outline:2px solid var(--fg)}
+
+.empty-state{padding:40px 0;text-align:center;color:var(--mut)}
+footer{margin-top:22px;padding-top:6px;text-align:center;font:500 11px var(--mono);color:var(--dim)}
+@media (min-width:420px){.hero .big{font-size:110px}}
+@media (prefers-reduced-motion:no-preference){.pbar i,.bar i{transition:width .5s cubic-bezier(.2,.8,.2,1)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo">DIE<i>T</i></div>
+      <div class="dday" id="dday"></div>
+    </div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-t="day" aria-selected="true">일간</button>
+      <button role="tab" data-t="week" aria-selected="false">주간</button>
+      <button role="tab" data-t="month" aria-selected="false">월간</button>
+      <button role="tab" data-t="trend" aria-selected="false">추이</button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="view"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const WD = ['일','월','화','수','목','금','토'];
+const pad = n => String(n).padStart(2, '0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate()+n); return iso(d); };
+const mondayOf = s => { const d = parse(s); d.setDate(d.getDate() - ((d.getDay()+6)%7)); return iso(d); };
+const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
+
+let DATA, BY = {}, GOAL;
+const S = { tab:'day', date:null, week:null, month:null };
+
+fetch('data.json', {cache:'no-store'}).then(r => r.json()).then(d => {
+  DATA = d; GOAL = d.goal;
+  d.days.forEach(x => BY[x.d] = x);
+  const last = d.days[d.days.length-1].d;
+  S.date = last; S.week = mondayOf(last); S.month = last.slice(0,7);
+  const left = Math.ceil((parse(d.targetDate) - new Date(new Date().toDateString())) / 864e5);
+  $('#dday').innerHTML = `<b>D-${Math.max(0,left)}</b>복근 · ${d.targetDate.replace(/-/g,'.')}`;
+  $('#foot').textContent = `업데이트 ${d.updated.replace('T',' ').slice(0,16)} · 목표 순섭취 ${fmt(GOAL.kcal)} kcal`;
+  render();
+}).catch(() => { $('#view').innerHTML = '<div class="empty-state">데이터를 불러오지 못했습니다.</div>'; });
+
+$('#tabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  S.tab = b.dataset.t;
+  document.querySelectorAll('#tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
+  render(); scrollTo({top:0});
+});
+$('#view').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  const [a, v] = b.dataset.act.split(':');
+  if (a === 'day') { S.date = v; S.tab = 'day'; syncTabs(); }
+  if (a === 'week') S.week = addDays(S.week, +v*7);
+  if (a === 'month') { const d = parse(S.month+'-01'); d.setMonth(d.getMonth()+ +v); S.month = iso(d).slice(0,7); }
+  if (a === 'dnav') S.date = addDays(S.date, +v);
+  render();
+});
+function syncTabs(){ document.querySelectorAll('#tabs button').forEach(x => x.setAttribute('aria-selected', x.dataset.t === S.tab)); }
+
+const dayLabel = s => { const d = parse(s); return `${d.getMonth()+1}.${d.getDate()}`; };
+const first = () => DATA.days[0].d, lastD = () => DATA.days[DATA.days.length-1].d;
+
+/* ---------- 공통 조각 ---------- */
+function ring(net, goal){
+  const r = 62, c = 2*Math.PI*r, p = clamp(net/goal, 0, 1), over = net > goal;
+  const lap2 = over ? clamp((net-goal)/goal, 0, 1) : 0;
+  return `<svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="${r}" fill="none" stroke="var(--s2)" stroke-width="14"/>
+  <circle cx="75" cy="75" r="${r}" fill="none" stroke="${over?'var(--over)':'var(--fg)'}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c*p} ${c}"/>
+  ${lap2?`<circle cx="75" cy="75" r="${r}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c*lap2} ${c}"/>`:''}</svg>`;
+}
+
+function barsChart({vals, goals, labels, color, goalLine, h=150, unit='', hi=-1, dim=false, onclick}){
+  const W = 340, top = 18, bot = 20, pl = 4, n = vals.length;
+  const max = Math.max(...vals.filter(v=>v!=null), ...goals.filter(v=>v!=null), 1) * 1.12;
+  const y = v => top + (h-top-bot) * (1 - v/max);
+  const bw = (W-pl*2)/n, w = Math.min(34, bw*.62);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${h}">`;
+  [0,.5,1].forEach(f => s += `<line class="g" x1="0" x2="${W}" y1="${y(max/1.12*f)}" y2="${y(max/1.12*f)}"/>`);
+  vals.forEach((v,i) => {
+    const x = pl + i*bw + (bw-w)/2, cx = x+w/2;
+    if (v != null && v > 0) {
+      const col = typeof color === 'function' ? color(v, i) : color;
+      s += `<rect x="${x}" y="${y(v)}" width="${w}" height="${y(0)-y(v)}" rx="${Math.min(6,w/3)}" fill="${col}" ${dim && i!==hi?'opacity=".55"':''} ${onclick?`data-act="day:${onclick[i]}" style="cursor:pointer"`:''}/>`;
+      s += `<text x="${cx}" y="${y(v)-5}" text-anchor="middle" style="fill:var(--fg)">${fmt(v)}</text>`;
+    }
+    s += `<text x="${cx}" y="${h-4}" text-anchor="middle" ${i===hi?'style="fill:var(--fg);font-weight:700"':''}>${labels[i]}</text>`;
+  });
+  if (goalLine) {
+    const gs = goals.filter(g=>g!=null);
+    if (new Set(gs).size <= 1 && gs.length) s += `<line class="goal" x1="0" x2="${W}" y1="${y(gs[0])}" y2="${y(gs[0])}"/><text x="${W}" y="${y(gs[0])-4}" text-anchor="end" style="fill:#fff">GOAL ${fmt(gs[0])}${unit}</text>`;
+    else goals.forEach((g,i)=>{ if(g==null) return; const x = pl+i*bw+(bw-w)/2; s += `<line class="goal" x1="${x-3}" x2="${x+w+3}" y1="${y(g)}" y2="${y(g)}"/>`; });
+  }
+  return s + '</svg>';
+}
+
+function lineChart(series, {h=170, goal=null, unit=''}={}){
+  const W = 340, pl = 30, pr = 6, top = 12, bot = 22, n = series[0].v.length;
+  const all = series.flatMap(s => s.v.filter(v => v!=null)).concat(goal ? [goal] : []);
+  const max = Math.ceil(Math.max(...all, 1)*1.1/100)*100, min = 0;
+  const x = i => pl + (n===1 ? (W-pl-pr)/2 : i*(W-pl-pr)/(n-1));
+  const y = v => top + (h-top-bot)*(1-(v-min)/(max-min));
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${h}"><defs>${series.map((q,k)=>`<linearGradient id="lg${k}${unit}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${q.color}" stop-opacity=".35"/><stop offset="1" stop-color="${q.color}" stop-opacity="0"/></linearGradient>`).join('')}</defs>`;
+  for (let k=0;k<=3;k++){ const v = max*k/3; s += `<line class="g" x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}"/><text x="${pl-5}" y="${y(v)+3}" text-anchor="end">${fmt(v)}</text>`; }
+  if (goal) s += `<line class="goal" x1="${pl}" x2="${W-pr}" y1="${y(goal)}" y2="${y(goal)}"/>`;
+  series.forEach((q,k) => {
+    const pts = q.v.map((v,i)=> v==null?null:[x(i),y(v)]).filter(Boolean);
+    if (!pts.length) return;
+    const path = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    if (q.area) s += `<path d="${path} L${pts[pts.length-1][0]} ${y(0)} L${pts[0][0]} ${y(0)} Z" fill="url(#lg${k}${unit})"/>`;
+    s += `<path d="${path}" fill="none" stroke="${q.color}" stroke-width="${q.w||2.5}" stroke-linecap="round" stroke-linejoin="round" ${q.dash?'stroke-dasharray="2 5"':''}/>`;
+    if (q.dots) pts.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="${q.color}"/>`);
+    const lp = pts[pts.length-1]; s += `<circle cx="${lp[0]}" cy="${lp[1]}" r="4.5" fill="${q.color}" stroke="var(--bg)" stroke-width="2"/>`;
+  });
+  const lab = series[0].labels; const idx = n<=6 ? [...Array(n).keys()] : [0, Math.floor((n-1)/2), n-1];
+  idx.forEach(i => s += `<text x="${x(i)}" y="${h-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${lab[i]}</text>`);
+  return s + '</svg>';
+}
+
+const live = x => x.d === lastD() && x.d === iso(new Date());
+const fin = a => { const f = a.filter(x => !live(x)); return f.length ? f : a; };
+const status = (net, goal) => net > goal ? 'over' : 'ok';
+
+function proteinHero(p, label, extra){
+  const pct = p/GOAL.protein*100, left = GOAL.protein - p;
+  return `<section class="card hero"><p class="lbl" style="color:#b9c6ff;position:relative">PROTEIN ${label||''}</p>
+  <div class="row"><span class="big num">${fmt(p)}</span><span class="of">/ ${GOAL.protein} g</span><span class="pct">${fmt(pct)}%</span></div>
+  <div class="pbar"><i style="width:${clamp(pct,0,100)}%"></i></div>
+  <div class="sub"><span>${left>0?`남음 ${fmt(left)}g`:`목표 달성 +${fmt(-left)}g`}</span><span>${extra||''}</span></div></section>`;
+}
+function macroCard(name, v, goal, color){
+  const pct = v/goal*100, left = goal - v;
+  return `<div class="mac"><div class="n"><span>${name}</span><span class="num">${fmt(pct)}%</span></div>
+  <div class="v num" style="color:${color}">${fmt(v)}<small>/ ${fmt(goal)}g</small></div>
+  <div class="bar"><i style="width:${clamp(pct,0,100)}%;background:${color}"></i></div>
+  <div class="r">${left>=0?`남음 ${fmt(left)}g`:`<span class="over">초과 ${fmt(-left)}g</span>`}</div></div>`;
+}
+
+/* ---------- 일간 ---------- */
+function viewDay(){
+  const d = BY[S.date]; const dt = parse(S.date);
+  const idx = DATA.days.findIndex(x => x.d === S.date);
+  const prev = idx > 0, next = idx < DATA.days.length-1;
+  let h = `<div class="nav"><button data-act="dnav:-1" ${prev?'':'disabled'} aria-label="이전 날">‹</button>
+    <div class="t"><b>${dt.getMonth()+1}월 ${dt.getDate()}일</b><span>${WD[dt.getDay()]}요일${S.date===lastD()?' · 오늘':''}</span></div>
+    <button data-act="dnav:1" ${next?'':'disabled'} aria-label="다음 날">›</button></div>`;
+  const left = d.goal - d.net, st = status(d.net, d.goal);
+  h += proteinHero(d.protein, '', `${fmt(d.protein*4)} kcal`);
+  h += `<section class="card"><p class="lbl">Calories · 순섭취</p><div class="ringbox"><div class="ring">${ring(d.net, d.goal)}
+    <div class="c"><b class="num ${st}">${fmt(Math.abs(left))}</b><span>${left>=0?'kcal 남음':'kcal 초과'}</span></div></div>
+    <div class="kv"><div><span>먹은 양</span><b>${fmt(d.eaten)}</b></div><div><span>운동 소모</span><b>${d.burn?'−'+fmt(d.burn):'—'}</b></div>
+    <div><span>순섭취</span><b class="${st}">${fmt(d.net)}</b></div><div><span>오늘 목표</span><b>${fmt(d.goal)}</b></div></div></div></section>`;
+  h += `<div class="macros">${macroCard('탄수화물', d.carb, d.carbGoal, 'var(--carb)')}${macroCard('지방', d.fat, GOAL.fat, 'var(--fat)')}</div>`;
+  const last14 = DATA.days.slice(Math.max(0, idx-6), idx+1);
+  h += `<section class="card" style="margin-top:12px"><p class="lbl">Protein · 최근 7일 (g)</p>${barsChart({
+    vals:last14.map(x=>x.protein), goals:last14.map(()=>GOAL.protein), labels:last14.map(x=>dayLabel(x.d)),
+    color:(v)=> v>=GOAL.protein ? 'var(--ok)' : 'url(#pg)', goalLine:true, hi:last14.length-1, dim:true, onclick:last14.map(x=>x.d)}).replace('<svg class="chart"', '<svg class="chart"').replace('>', '><defs><linearGradient id="pg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#29d3ff"/><stop offset="1" stop-color="#4d7cff"/></linearGradient></defs>')}</section>`;
+  return h;
+}
+
+/* ---------- 주간 ---------- */
+function viewWeek(){
+  const days = [...Array(7).keys()].map(i => addDays(S.week, i));
+  const rows = days.map(s => BY[s] || null), have = rows.filter(Boolean);
+  const prev = S.week > mondayOf(first()), next = S.week < mondayOf(lastD());
+  let h = `<div class="nav"><button data-act="week:-1" ${prev?'':'disabled'} aria-label="이전 주">‹</button>
+    <div class="t"><b>${dayLabel(days[0])} – ${dayLabel(days[6])}</b><span>주간 · ${have.length}일 기록${have.some(live)?' (오늘 제외 평균)':''}</span></div>
+    <button data-act="week:1" ${next?'':'disabled'} aria-label="다음 주">›</button></div>`;
+  if (!have.length) return h + '<div class="empty-state">이 주 기록이 없습니다.</div>';
+  const fh = fin(have);
+  const aP = avg(fh.map(x=>x.protein)), aK = avg(fh.map(x=>x.net));
+  const hit = fh.filter(x=>x.protein >= GOAL.protein*0.95).length;
+  h += proteinHero(aP, '· 일평균', `${hit}/${fh.length}일 달성`);
+  const defi = fh.reduce((a,x)=>a+(2200-x.net),0);
+  h += `<div class="stats"><div class="stat"><span>일평균 순섭취</span><b class="num ${aK>GOAL.kcal?'over':''}">${fmt(aK)}</b><em>kcal</em></div>
+    <div class="stat"><span>누적 적자</span><b class="num ${defi>=0?'ok':'over'}">${defi>=0?'−':'+'}${fmt(Math.abs(defi))}</b><em>kcal · 유지 2,200 기준</em></div>
+    <div class="stat"><span>추정 감량</span><b class="num pro">${(defi/7700).toFixed(2)}</b><em>kg 지방</em></div></div>`;
+  h += `<section class="card"><p class="lbl">Calories · 순섭취 (kcal)</p>${barsChart({
+    vals:rows.map(x=>x?x.net:null), goals:rows.map(x=>x?x.goal:null), labels:days.map(s=>WD[parse(s).getDay()]),
+    color:(v,i)=> rows[i] && v>rows[i].goal ? 'var(--over)' : '#e6eaf5', goalLine:true, onclick:days})}
+    <div class="legend"><span><i style="background:#e6eaf5"></i>목표 이내</span><span><i style="background:var(--over)"></i>초과</span><span>점선 = 그날 목표</span></div></section>`;
+  h += `<section class="card"><p class="lbl">Protein (g)</p>${barsChart({
+    vals:rows.map(x=>x?x.protein:null), goals:rows.map(()=>GOAL.protein), labels:days.map(s=>WD[parse(s).getDay()]),
+    color:(v)=> v>=GOAL.protein*0.95 ? 'var(--ok)' : 'url(#pg)', goalLine:true, onclick:days})
+    .replace('>', '><defs><linearGradient id="pg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#29d3ff"/><stop offset="1" stop-color="#4d7cff"/></linearGradient></defs>')}</section>`;
+  h += `<div class="macros">${macroCard('탄수화물 · 일평균', avg(fh.map(x=>x.carb)), avg(fh.map(x=>x.carbGoal)), 'var(--carb)')}${macroCard('지방 · 일평균', avg(fh.map(x=>x.fat)), GOAL.fat, 'var(--fat)')}</div>`;
+  return h;
+}
+
+/* ---------- 월간 ---------- */
+function viewMonth(){
+  const [Y, M] = S.month.split('-').map(Number);
+  const firstD = new Date(Y, M-1, 1), nDays = new Date(Y, M, 0).getDate(), lead = firstD.getDay();
+  const prev = S.month > first().slice(0,7), next = S.month < lastD().slice(0,7);
+  const mdays = DATA.days.filter(x => x.d.startsWith(S.month));
+  let h = `<div class="nav"><button data-act="month:-1" ${prev?'':'disabled'} aria-label="이전 달">‹</button>
+    <div class="t"><b>${Y}년 ${M}월</b><span>월간 · ${mdays.length}일 기록${mdays.some(live)?' (오늘 제외 평균)':''}</span></div>
+    <button data-act="month:1" ${next?'':'disabled'} aria-label="다음 달">›</button></div>`;
+  if (!mdays.length) return h + '<div class="empty-state">이 달 기록이 없습니다.</div>';
+  const fm = fin(mdays);
+  const aP = avg(fm.map(x=>x.protein)), aK = avg(fm.map(x=>x.net));
+  h += proteinHero(aP, '· 일평균', `${fm.filter(x=>x.protein>=GOAL.protein*0.95).length}/${fm.length}일 달성`);
+  const defi = fm.reduce((a,x)=>a+(2200-x.net),0);
+  h += `<div class="stats"><div class="stat"><span>일평균 순섭취</span><b class="num">${fmt(aK)}</b><em>kcal</em></div>
+    <div class="stat"><span>누적 적자</span><b class="num ${defi>=0?'ok':'over'}">${defi>=0?'−':'+'}${fmt(Math.abs(defi))}</b><em>kcal</em></div>
+    <div class="stat"><span>추정 감량</span><b class="num pro">${(defi/7700).toFixed(1)}</b><em>kg 지방</em></div></div>`;
+  let cal = '<div class="cal">' + WD.map(w=>`<div class="h">${w}</div>`).join('') + '<div class="cell empty"></div>'.repeat(lead);
+  for (let i=1;i<=nDays;i++){
+    const s = `${S.month}-${pad(i)}`, x = BY[s];
+    if (!x) { cal += `<div class="cell empty" style="background:var(--s1)"><span class="d">${i}</span></div>`; continue; }
+    const r = x.net/x.goal, cls = r>1.03 ? 'hi' : r<.85 ? 'lo' : 'ok';
+    cal += `<button class="cell ${cls} ${s===lastD()?'today':''}" data-act="day:${s}"><span class="d">${i}</span><span class="k">${fmt(x.net)}</span>
+      <span class="p"><i style="width:${clamp(x.protein/GOAL.protein*100,0,100)}%"></i></span></button>`;
+  }
+  h += `<section class="card"><p class="lbl">Calendar · 순섭취 kcal / 하단 바 = 단백질</p>${cal}</div>
+    <div class="legend"><span><i style="background:#14243d"></i>목표의 85% 미만</span><span><i style="background:#12301f"></i>목표 근처</span><span><i style="background:#3a1c14"></i>초과</span></div></section>`;
+  h += `<section class="card"><p class="lbl">Calories 추이 (순섭취)</p>${lineChart([{v:mdays.map(x=>x.net), color:'#e6eaf5', dots:true, labels:mdays.map(x=>dayLabel(x.d))}], {goal:GOAL.kcal, unit:'m'})}</section>`;
+  return h;
+}
+
+/* ---------- 추이 ---------- */
+function ma(arr, k=7){ return arr.map((_,i)=> avg(arr.slice(Math.max(0,i-k+1), i+1))); }
+function viewTrend(){
+  const ds = DATA.days, labels = ds.map(x=>dayLabel(x.d));
+  const net = ds.map(x=>x.net), pro = ds.map(x=>x.protein);
+  const L = live(ds[ds.length-1]) ? 1 : 0;
+  const maF = a => ma(a.slice(0, a.length-L)).concat(Array(L).fill(null));
+  const net7 = maF(net), pro7 = maF(pro);
+  const lastOk = a => a.filter(v=>v!=null).pop();
+  const cur = lastOk(pro7), curK = lastOk(net7);
+  let h = `<div class="nav" style="justify-content:center"><div class="t"><b>전체 추이</b><span>${dayLabel(ds[0].d)} – ${dayLabel(ds[ds.length-1].d)} · ${ds.length}일</span></div></div>`;
+  h += proteinHero(cur, '· 최근 7일 평균', `전체 평균 ${fmt(avg(pro.slice(0,pro.length-L)))}g`);
+  h += `<section class="card"><p class="lbl">Protein · 일별 & 7일 평균 (g)</p>${lineChart([
+    {v:pro, color:'#4a5a8c', w:1.5, dots:true, labels}, {v:pro7, color:'#29d3ff', area:true, w:3, labels}], {goal:GOAL.protein, unit:'p'})}
+    <div class="legend"><span><i style="background:#29d3ff"></i>7일 평균</span><span><i style="background:#4a5a8c"></i>일별</span><span>점선 = 목표 170g</span></div></section>`;
+  h += `<section class="card"><p class="lbl">Calories · 순섭취 & 7일 평균 (kcal)</p>${lineChart([
+    {v:net, color:'#5b6075', w:1.5, dots:true, labels}, {v:net7, color:'#ffffff', area:true, w:3, labels}], {goal:GOAL.kcal, unit:'k'})}
+    <div class="legend"><span><i style="background:#fff"></i>7일 평균 ${fmt(curK)}</span><span><i style="background:#5b6075"></i>일별</span><span>점선 = 목표 1,750</span></div></section>`;
+  h += `<section class="card"><p class="lbl">Macros · 일별 (g)</p>${lineChart([
+    {v:ds.map(x=>x.carb), color:'#ffb020', labels, w:2}, {v:ds.map(x=>x.fat), color:'#ff4fa3', labels, w:2}, {v:pro, color:'#29d3ff', labels, w:2.5}], {unit:'m'})}
+    <div class="legend"><span><i style="background:#29d3ff"></i>단백질</span><span><i style="background:#ffb020"></i>탄수화물</span><span><i style="background:#ff4fa3"></i>지방</span></div></section>`;
+  return h;
+}
+
+function render(){
+  $('#view').innerHTML = {day:viewDay, week:viewWeek, month:viewMonth, trend:viewTrend}[S.tab]();
+}
+</script>
+</body>
+</html>
