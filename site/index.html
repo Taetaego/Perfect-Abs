@@ -23,26 +23,26 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--fg);font:500 16px/1.5 var(--body)}
 body{padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px}
 .n{font-family:var(--num);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
 header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px}
-.logo{font:900 28px/1 var(--num);letter-spacing:.04em}
+.top{display:flex;align-items:center;justify-content:space-between;padding:10px 0 8px}
+.logo{font:900 24px/1 var(--num);letter-spacing:.04em}
 .dday{text-align:right;font-size:13px;color:var(--sub);line-height:1.3}
-.dday b{font:900 22px/1.1 var(--num);color:var(--fg);margin-right:6px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-bottom:12px}
-.tabs button{border:0;background:var(--card);color:var(--sub);font:700 16px var(--body);padding:12px 0;border-radius:12px;cursor:pointer}
+.dday b{font:900 19px/1.1 var(--num);color:var(--fg);margin-right:6px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-bottom:10px}
+.tabs button{border:0;background:var(--card);color:var(--sub);font:700 15px var(--body);padding:10px 0;border-radius:10px;cursor:pointer}
 .tabs button[aria-selected=true]{background:var(--fg);color:#000}
 
-.nav{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;gap:8px;margin:18px 0 14px}
-.nav button{height:52px;border-radius:14px;border:0;background:var(--card);color:var(--fg);font:700 24px var(--body);cursor:pointer}
+.nav{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;margin:10px 0 10px}
+.nav button{height:44px;border-radius:12px;border:0;background:var(--card);color:var(--fg);font:700 22px var(--body);cursor:pointer}
 .nav button:disabled{opacity:.25}
 .nav .t{text-align:center}
-.nav .t b{display:block;font:900 24px/1.2 var(--num)}
-.nav .t span{font-size:14px;color:var(--sub)}
+.nav .t b{display:block;font:900 19px/1.25 var(--num)}
+.nav .t span{font-size:13px;color:var(--sub)}
 
-.card{background:var(--card);border-radius:20px;padding:20px;margin-bottom:12px}
+.card{background:var(--card);border-radius:18px;padding:10px 16px;margin-bottom:12px}
 .h{display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:15px;font-weight:700;color:var(--sub)}
 .chip{font-size:14px;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--card2);color:var(--fg)}
 .chip.good{background:rgba(61,220,151,.16);color:var(--good)}
@@ -63,22 +63,23 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe
 .trio div b{display:block;font:800 22px/1.25 var(--num)}
 
 
-.item{padding:16px 0;border-top:1px solid var(--line)}
-.item:first-of-type{border-top:0;padding-top:8px}
+.item{padding:11px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
 .item .l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .item .l1 span{font-weight:800}
 .item .l1 b{font-weight:900}
 .item .l1 small{font:600 14px var(--body);color:var(--sub);margin-left:5px;letter-spacing:0}
-.item .bar{position:relative;border-radius:99px;background:var(--card2);margin:10px 0 8px;overflow:hidden}
+.item .bar{position:relative;border-radius:99px;background:var(--card2);margin:6px 0 5px;overflow:hidden}
 .item .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px}
 .item .bar s{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#fff}
 .item .l3{font-size:15px}
 .item .l3 b{font-weight:900}
-.item.xl .l1 span{font-size:22px}.item.xl .l1 b{font-size:34px}.item.xl .bar{height:24px}.item.xl .l3{font-size:18px}
-.item.lg .l1 span{font-size:20px}.item.lg .l1 b{font-size:28px}.item.lg .bar{height:20px}.item.lg .l3{font-size:16px}
-.item.md .l1 span{font-size:17px}.item.md .l1 b{font-size:22px}.item.md .bar{height:14px}
-.carry{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid var(--line);padding-top:16px;margin-top:4px;font-size:16px;font-weight:700}
-.carry b{display:block;font-size:22px;margin-top:2px}
+.item.xl .l1 span{font-size:19px}.item.xl .l1 b{font-size:30px}.item.xl .bar{height:18px}.item.xl .l3{font-size:15px}
+.item.lg .l1 span{font-size:17px}.item.lg .l1 b{font-size:24px}.item.lg .bar{height:15px}.item.lg .l3{font-size:14px}
+.item.md .l1 span{font-size:15px}.item.md .l1 b{font-size:19px}.item.md .bar{height:11px}.item.md .l3{font-size:13.5px}
+.carry{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid var(--line);padding:11px 0 4px;margin-top:2px;font-size:15px;font-weight:700}
+.carry b{display:block;font-size:19px;margin-top:1px}
+.carry small{display:block;font-size:12.5px;font-weight:500;color:var(--sub);margin-top:1px}
 /* 탄수화물·지방(구) */
 .mrow{padding:14px 0;border-top:1px solid var(--line)}
 .mrow:first-of-type{border-top:0;padding-top:4px}
@@ -186,10 +187,10 @@ function item(icon, name, v, goal, unit, size, more){
   <div class="l3" style="color:${over?'var(--over)':'var(--sub)'}"><b>${fmt(pct)}%</b> · ${more&&left<0?'달성 +':over?'초과 ':'남음 '}${fmt(Math.abs(left))}${unit}</div></div>`;
 }
 function dash(o, title, tag){
-  return `<section class="card"><div class="h"><span>${title}</span>${tag?`<span class="chip">${tag}</span>`:''}</div>
+  return `<section class="card">${title?`<div class="h"><span>${title}</span>${tag?`<span class="chip">${tag}</span>`:''}</div>`:''}
   ${item('🔥','칼로리', o.kcal, o.kGoal, 'kcal', 'xl')}${item('🍗','단백질', o.p, GOAL.protein, 'g', 'lg', true)}
   ${item('🍚','탄수화물', o.c, o.cGoal, 'g', 'md')}${item('🥑','지방', o.f, GOAL.fat, 'g', 'md')}
-  ${o.carry!=null?`<div class="carry"><div>⚠️ 초과 <b class="n">${fmt(o.over)}kcal</b></div><div>📦 누적 <b class="n">${fmt(o.carry)}kcal</b></div></div>`:''}</section>`;
+  ${o.carry!=null?`<div class="carry"><div>⚠️ 초과 <b class="n">${fmt(o.over)}kcal</b></div><div>📦 누적 <b class="n">${fmt(o.carry)}kcal</b><small>초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</small></div></div>`:''}</section>`;
 }
 function dayObj(d){ return {kcal:d.net, kGoal:d.goal, p:d.protein, c:d.carb, cGoal:d.carbGoal, f:d.fat, over:d.over, carry:d.carry}; }
 function avgObj(a){ return {kcal:avg(a.map(x=>x.net)), kGoal:avg(a.map(x=>x.goal)), p:avg(a.map(x=>x.protein)), c:avg(a.map(x=>x.carb)), cGoal:avg(a.map(x=>x.carbGoal)), f:avg(a.map(x=>x.fat))}; }
@@ -243,9 +244,9 @@ const legendBar = `<div class="legend"><span><i style="background:var(--good)"><
 function viewDay(){
   const d = BY[S.date], dt = parse(S.date), idx = DATA.days.findIndex(x => x.d === S.date);
   let h = `<div class="nav"><button data-act="dnav:-1" ${idx>0?'':'disabled'} aria-label="이전 날">‹</button>
-    <div class="t"><b>${dt.getMonth()+1}월 ${dt.getDate()}일 (${WD[dt.getDay()]})</b><span>${live(d)?'오늘 · 진행 중':'기록 완료'}</span></div>
+    <div class="t"><b>${dt.getMonth()+1}월 ${dt.getDate()}일 (${WD[dt.getDay()]})</b><span>${live(d)?'오늘 · 진행 중':'기록 완료'}${d.burn?` · 운동 −${fmt(d.burn)}kcal`:''}</span></div>
     <button data-act="dnav:1" ${idx<DATA.days.length-1?'':'disabled'} aria-label="다음 날">›</button></div>`;
-  h += dash(dayObj(d), '오늘의 현황', d.burn?`운동 −${fmt(d.burn)}kcal`:'');
+  h += dash(dayObj(d));
   const w = DATA.days.slice(Math.max(0, idx-6), idx+1), lb = w.map(x=>dayLabel(x.d)), on = w.map(x=>x.d);
   h += `<section class="card"><div class="h"><span>최근 7일 칼로리 (순섭취)</span></div>${barsChart({vals:w.map(x=>x.net), goals:w.map(x=>x.goal), labels:lb, color:(v,i)=>kcalColor(v,w[i].goal), hi:w.length-1, onclick:on})}${legendBar}</section>`;
   h += `<section class="card"><div class="h"><span>최근 7일 단백질 (g)</span></div>${barsChart({vals:w.map(x=>x.protein), goals:w.map(()=>GOAL.protein), labels:lb, color:()=>'var(--pro)', hi:w.length-1, onclick:on})}<div class="legend"><span><u></u>목표 ${GOAL.protein}g</span></div></section>`;
