@@ -787,6 +787,38 @@
       "fat": 0
     },
     {
+      "meal": "식사",
+      "food": "팽이버섯 200g",
+      "kcal": 74,
+      "carb": 16,
+      "protein": 5,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "숙주나물 300g",
+      "kcal": 84,
+      "carb": 17,
+      "protein": 8,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "순두부 300g",
+      "kcal": 135,
+      "carb": 5,
+      "protein": 14,
+      "fat": 8
+    },
+    {
+      "meal": "식사",
+      "food": "카레가루 2스푼 (20g)",
+      "kcal": 65,
+      "carb": 11,
+      "protein": 2,
+      "fat": 3
+    },
+    {
       "meal": "운동",
       "food": "등·가슴·어깨 웨이트 (Hevy, 소모 추정)",
       "kcal": -275,
