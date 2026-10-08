@@ -58,6 +58,9 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe
 .item:first-of-type{border-top:0}
 .item .l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .item .l1 span{font-weight:900}
+.tag{display:inline-block;font:900 11px/1.5 var(--mono);font-style:normal;background:var(--fg);color:#000;padding:0 6px;margin-right:7px;letter-spacing:.04em;vertical-align:2px}
+.tag.y{background:var(--pro)}
+.tag.r{background:var(--over)}
 .item .l1 b{font-weight:800}
 .item .l1 small{font:700 13px var(--mono);color:var(--sub);margin-left:5px}
 .cells{display:flex;gap:2px;margin:6px 0 5px}
@@ -163,15 +166,15 @@ function item(icon, name, v, goal, unit, size, more){
   const n = Math.round(12*v/goal), N = clamp(Math.max(12,n), 12, 24), f = Math.min(n, N);
   const cls = more ? 'pr' : left < 0 ? 'ov' : 'on';
   let cells = ''; for (let i=0;i<N;i++) cells += `<i class="${i<f?cls:''}${i===12?' g':''}"></i>`;
-  return `<div class="item ${size}"><div class="l1"><span>${icon} ${name}</span><b class="n">${fmt(v)}<small>/ ${fmt(goal)} ${unit}</small></b></div>
+  return `<div class="item ${size}"><div class="l1"><span><em class="tag ${icon==='PRO'?'y':''}">${icon}</em>${name}</span><b class="n">${fmt(v)}<small>/ ${fmt(goal)} ${unit}</small></b></div>
   <div class="cells">${cells}</div>
   <div class="l3" style="color:${over?'var(--over)':'var(--sub)'}"><b>${fmt(pct)}%</b> · ${more&&left<0?'달성 +':over?'초과 ':'남음 '}${fmt(Math.abs(left))}${unit}</div></div>`;
 }
 function dash(o, title, tag){
   return `<section class="card">${title?`<div class="h"><span>${title}</span>${tag?`<span class="chip">${tag}</span>`:''}</div>`:''}
-  ${item('🔥','칼로리', o.kcal, o.kGoal, 'kcal', 'xl')}${item('🍗','단백질', o.p, GOAL.protein, 'g', 'lg', true)}
-  ${item('🍚','탄수화물', o.c, o.cGoal, 'g', 'md')}${item('🥑','지방', o.f, GOAL.fat, 'g', 'md')}
-  ${o.carry!=null?`<div class="carry"><div>⚠️ 초과 <b class="n">${fmt(o.over)}kcal</b></div><div>📦 누적 <b class="n">${fmt(o.carry)}kcal</b><small>초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</small></div></div>`:''}</section>`;
+  ${item('KCAL','칼로리', o.kcal, o.kGoal, 'kcal', 'xl')}${item('PRO','단백질', o.p, GOAL.protein, 'g', 'lg', true)}
+  ${item('CARB','탄수화물', o.c, o.cGoal, 'g', 'md')}${item('FAT','지방', o.f, GOAL.fat, 'g', 'md')}
+  ${o.carry!=null?`<div class="carry"><div><em class="tag r">OVER</em>초과 <b class="n">${fmt(o.over)}kcal</b></div><div><em class="tag">SUM</em>누적 <b class="n">${fmt(o.carry)}kcal</b><small>초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</small></div></div>`:''}</section>`;
 }
 function dayObj(d){ return {kcal:d.net, kGoal:d.goal, p:d.protein, c:d.carb, cGoal:d.carbGoal, f:d.fat, over:d.over, carry:d.carry}; }
 function avgObj(a){ return {kcal:avg(a.map(x=>x.net)), kGoal:avg(a.map(x=>x.goal)), p:avg(a.map(x=>x.protein)), c:avg(a.map(x=>x.carb)), cGoal:avg(a.map(x=>x.carbGoal)), f:avg(a.map(x=>x.fat))}; }
