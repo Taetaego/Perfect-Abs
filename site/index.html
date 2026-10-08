@@ -3,121 +3,102 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0c10">
+<meta name="theme-color" content="#000000">
 <title>Diet</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0c10'/%3E%3Cpath d='M7 22V10h5.5a4 4 0 010 8H7' fill='none' stroke='%23ffffff' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='0' fill='%23000000'/%3E%3Cpath d='M7 22V10h5.5a4 4 0 010 8H7' fill='none' stroke='%23ffd400' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Courier+Prime:wght@400;700&family=Noto+Sans+KR:wght@500;700;900&display=swap">
 <style>
-/* 읽기 쉬운 한 컬럼. 순서: 칼로리(1순위) → 단백질(2순위) → 탄수화물·지방 → 추이 */
+/* 헬창 철판 스타일: 검정 바탕, 흰 굵은 테두리, 직각, 노랑/빨강 포인트, 옛날 HTML 같은 딱딱한 표 느낌 */
 :root{
-  --bg:#0b0c10; --card:#15171e; --card2:#1d2029; --line:#2b2f3b;
-  --fg:#ffffff; --sub:#c3c9d6; --mut:#9aa2b3;
-  --kcal:#ffffff; --good:#3ddc97; --over:#ff7a45;
-  --pro:#6c9bff; --carb:#ffbf3c; --fat:#ff6fb5;
-  --num:"Archivo","Noto Sans KR",sans-serif;
-  --body:"Noto Sans KR",system-ui,-apple-system,sans-serif;
+  --bg:#000; --card:#000; --card2:#262626; --line:#fff; --dim:#444;
+  --fg:#fff; --sub:#d6d6d6; --mut:#8c8c8c;
+  --good:#f2f2f2; --over:#ff3b1f; --pro:#ffd400;
+  --num:"Anton","Noto Sans KR",Impact,sans-serif;
+  --body:"Noto Sans KR",system-ui,sans-serif;
+  --mono:"Courier Prime","Courier New",monospace;
   color-scheme:dark;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--fg);font:500 16px/1.5 var(--body)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;border-radius:0}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:700 15px/1.45 var(--body)}
 body{padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}
-.wrap{max-width:560px;margin:0 auto;padding:0 14px}
-.n{font-family:var(--num);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.wrap{max-width:560px;margin:0 auto;padding:0 12px}
+.n{font-family:var(--num);font-weight:400;letter-spacing:.01em}
 
-header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
-.logo{font:900 20px/1 var(--num);letter-spacing:.04em}
+header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:3px solid var(--fg)}
 .bar{display:flex;align-items:center;gap:10px;padding-top:8px;padding-bottom:8px}
-.tabs{flex:1;display:flex;gap:5px}
-.tabs button{flex:1;border:0;background:var(--card);color:var(--sub);font:700 13.5px var(--body);padding:7px 0;border-radius:9px;cursor:pointer}
-.tabs button[aria-selected=true]{background:var(--fg);color:#000}
+.logo{font:400 24px/1 var(--num);letter-spacing:.1em;background:var(--pro);color:#000;padding:4px 8px 3px}
+.tabs{flex:1;display:flex;gap:4px}
+.tabs button{flex:1;border:2px solid var(--fg);background:#000;color:var(--fg);font:900 14px var(--body);padding:5px 0;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--pro);border-color:var(--pro);color:#000}
 
-.nav{display:grid;grid-template-columns:36px 1fr 36px;align-items:center;gap:8px;margin:8px 0 8px}
-.nav button{height:36px;border-radius:10px;border:0;background:var(--card);color:var(--fg);font:700 18px var(--body);cursor:pointer}
+.nav{display:grid;grid-template-columns:36px 1fr 36px;align-items:center;gap:8px;margin:10px 0}
+.nav button{height:36px;border:2px solid var(--fg);background:#000;color:var(--fg);font:900 18px var(--body);cursor:pointer}
 .nav button:disabled{opacity:.25}
 .nav .t{text-align:center}
-.nav .t b{display:block;font:900 17px/1.2 var(--num)}
-.nav .t span{font-size:12px;color:var(--sub)}
+.nav .t b{display:block;font:400 22px/1.15 var(--num);letter-spacing:.06em}
+.nav .t span{font:700 12px var(--mono);color:var(--sub)}
 
-.card{background:var(--card);border-radius:16px;padding:6px 14px;margin-bottom:10px}
-.h{display:flex;align-items:center;justify-content:space-between;margin:0 0 6px;font-size:15px;font-weight:700;color:var(--sub)}
-.chip{font-size:14px;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--card2);color:var(--fg)}
-.chip.good{background:rgba(61,220,151,.16);color:var(--good)}
-.chip.over{background:rgba(255,122,69,.18);color:var(--over)}
-
-/* 큰 숫자 카드 */
+.card{background:var(--card);border:2px solid var(--fg);padding:6px 12px;margin-bottom:10px}
+.h{display:flex;align-items:center;justify-content:space-between;margin:2px 0 6px;padding-bottom:6px;border-bottom:2px solid var(--fg);font:700 13px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.chip{font:700 12px var(--mono);padding:1px 8px;border:2px solid var(--fg);color:var(--fg)}
+.chip.good{border-color:var(--good);color:var(--good)}
+.chip.over{border-color:var(--over);color:var(--over)}
 .big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.big b{font:900 76px/1 var(--num);letter-spacing:-.03em}
-.big span{font-size:20px;font-weight:700;color:var(--sub)}
-.big.sm b{font-size:52px}
-.big.sm span{font-size:17px}
-.track{position:relative;height:18px;border-radius:9px;background:var(--card2);margin:16px 0 14px;overflow:hidden}
-.track i{position:absolute;left:0;top:0;bottom:0;border-radius:9px}
-.track s{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#fff;opacity:.9}
-.track.slim{height:12px;margin:10px 0 0}
-.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:left}
-.trio div span{display:block;font-size:14px;color:var(--sub)}
-.trio div b{display:block;font:800 22px/1.25 var(--num)}
+.big b{font:400 64px/1 var(--num)}
+.big span{font:700 16px var(--mono);color:var(--sub)}
+.big.sm b{font-size:44px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.trio div span{display:block;font:700 12px var(--mono);color:var(--sub);text-transform:uppercase}
+.trio div b{display:block;font:400 26px/1.2 var(--num)}
 
-
-.item{padding:8px 0;border-top:1px solid var(--line)}
+/* 항목: 이모지·이름 / 값 → 칸 막대 → 퍼센트·남음 */
+.item{padding:9px 0;border-top:1px solid var(--dim)}
 .item:first-of-type{border-top:0}
 .item .l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.item .l1 span{font-weight:800}
-.item .l1 b{font-weight:900}
-.item .l1 small{font:600 14px var(--body);color:var(--sub);margin-left:5px;letter-spacing:0}
-.item .bar{position:relative;border-radius:99px;background:var(--card2);margin:5px 0 4px;overflow:hidden}
-.item .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px}
-.item .bar s{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#fff}
-.item .l3{font-size:15px}
-.item .l3 b{font-weight:900}
-.item.xl .l1 span{font-size:18px}.item.xl .l1 b{font-size:28px}.item.xl .bar{height:16px}.item.xl .l3{font-size:14px}
-.item.lg .l1 span{font-size:16px}.item.lg .l1 b{font-size:22px}.item.lg .bar{height:13px}.item.lg .l3{font-size:13.5px}
-.item.md .l1 span{font-size:14px}.item.md .l1 b{font-size:18px}.item.md .bar{height:10px}.item.md .l3{font-size:13px}
-.carry{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid var(--line);padding:8px 0 4px;margin-top:0;font-size:14px;font-weight:700}
-.carry b{display:block;font-size:17px;margin-top:0}
-.carry small{display:block;font-size:12px;font-weight:500;color:var(--sub)}
-/* 탄수화물·지방(구) */
-.mrow{padding:14px 0;border-top:1px solid var(--line)}
-.mrow:first-of-type{border-top:0;padding-top:4px}
-.mrow .l{display:flex;justify-content:space-between;align-items:baseline}
-.mrow .l span{font-size:16px;font-weight:700}
-.mrow .l b{font:800 20px var(--num)}
-.mrow .l b small{font:600 14px var(--body);color:var(--sub);margin-left:4px}
-.mrow .r{font-size:14px;color:var(--sub);margin-top:6px}
-
-/* 주간·월간 요약 */
-.sum{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.sum .card{margin:0;padding:16px}
-.sum .card span{display:block;font-size:14px;color:var(--sub);font-weight:700}
-.sum .card b{display:block;font:900 34px/1.15 var(--num);margin:4px 0 2px}
-.sum .card em{font-style:normal;font-size:13px;color:var(--sub)}
+.item .l1 span{font-weight:900}
+.item .l1 b{font-weight:400}
+.item .l1 small{font:700 13px var(--mono);color:var(--sub);margin-left:5px}
+.cells{display:flex;gap:2px;margin:6px 0 5px}
+.cells i{flex:1;background:var(--card2);height:var(--ch,14px)}
+.cells i.on{background:var(--good)}
+.cells i.ov{background:var(--over)}
+.cells i.pr{background:var(--pro)}
+.cells i.g{margin-left:6px}
+.item .l3{font:700 14px var(--mono)}
+.item .l3 b{font-weight:700}
+.item.xl{--ch:22px}.item.xl .l1 span{font-size:19px}.item.xl .l1 b{font-size:34px}.item.xl .l3{font-size:15px}
+.item.lg{--ch:16px}.item.lg .l1 span{font-size:17px}.item.lg .l1 b{font-size:26px}
+.item.md{--ch:12px}.item.md .l1 span{font-size:15px}.item.md .l1 b{font-size:21px}.item.md .l3{font-size:13px}
+.carry{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:2px solid var(--fg);padding:8px 0 4px;font-size:14px;font-weight:900}
+.carry b{display:block;font:400 24px/1.15 var(--num)}
+.carry small{display:block;font:700 12px var(--mono);color:var(--sub)}
 
 svg.chart{width:100%;height:auto;display:block;overflow:visible;margin-top:8px}
-svg.chart text{font:600 12px var(--body);fill:var(--sub)}
-svg.chart .val{fill:#fff;font-weight:800;font-size:13px}
-svg.chart .g{stroke:#2b2f3b;stroke-width:1}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--sub);margin-top:12px}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+svg.chart text{font:700 11px var(--mono);fill:var(--sub)}
+svg.chart .val{fill:#fff;font-weight:700;font-size:12px}
+svg.chart .g{stroke:var(--dim);stroke-width:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font:700 12px var(--mono);color:var(--sub);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
 .legend u{display:inline-block;width:18px;border-top:3px dashed #fff;margin-right:6px;vertical-align:3px}
 
-/* 달력 */
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
-.cal .w{font-size:13px;font-weight:700;color:var(--sub);text-align:center;padding-bottom:4px}
-.cell{position:relative;min-height:66px;border-radius:12px;background:var(--card2);border:0;color:#fff;padding:6px 6px 0;text-align:left;font-family:var(--num);overflow:hidden;cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.cal .w{font:700 12px var(--mono);color:var(--sub);text-align:center;padding-bottom:2px}
+.cell{position:relative;min-height:62px;background:var(--card2);border:0;color:#fff;padding:4px 5px 0;text-align:left;font-family:var(--mono);overflow:hidden;cursor:pointer}
 .cell.blank{background:none;cursor:default}
-.cell.none{background:transparent;border:1px dashed var(--line);cursor:default}
-.cell .d{display:block;font:600 12px var(--body);color:var(--sub)}
-.cell .k{display:block;font-size:15px;font-weight:800;margin-top:3px;letter-spacing:-.03em}
-.cell .p{position:absolute;left:6px;right:6px;bottom:6px;height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+.cell.none{background:transparent;border:1px dashed var(--dim);cursor:default;color:var(--mut)}
+.cell .d{display:block;font:700 11px var(--mono);opacity:.85}
+.cell .k{display:block;font:700 14px var(--mono);margin-top:2px;letter-spacing:-.04em}
+.cell .p{position:absolute;left:5px;right:5px;bottom:5px;height:5px;background:rgba(255,255,255,.2)}
 .cell .p i{display:block;height:100%;background:var(--pro)}
-.cell.lo{background:#1d3257}.cell.ok{background:#16422f}.cell.hi{background:#59301d}
-.cell.today{box-shadow:inset 0 0 0 2px #fff}
+.cell.lo{background:#2e2e2e}
+.cell.ok{background:#f2f2f2;color:#000}.cell.ok .p{background:rgba(0,0,0,.25)}.cell.ok .p i{background:#000}
+.cell.hi{background:var(--over);color:#000}.cell.hi .p{background:rgba(0,0,0,.25)}.cell.hi .p i{background:#000}
+.cell.today{outline:3px solid var(--pro);outline-offset:-3px}
 
 .empty-state{padding:48px 0;text-align:center;color:var(--sub)}
-footer{margin-top:22px;text-align:center;font-size:13px;color:var(--mut)}
-@media (prefers-reduced-motion:no-preference){.track i{transition:width .4s ease}}
+footer{margin-top:22px;text-align:center;font:700 12px var(--mono);color:var(--mut)}
 </style>
 </head>
 <body>
@@ -179,9 +160,11 @@ $('#view').addEventListener('click', e => {
 // 채팅 대시보드와 같은 3줄 형식: 항목·수치 / 바 / 퍼센트 · 남음. 순서는 칼로리 → 단백질 → 탄수화물 → 지방.
 function item(icon, name, v, goal, unit, size, more){
   const pct = v/goal*100, left = goal - v, over = left < 0 && !more;
-  const scale = Math.max(v, goal), col = more ? 'var(--pro)' : over ? 'var(--over)' : 'var(--good)';
+  const n = Math.round(12*v/goal), N = clamp(Math.max(12,n), 12, 24), f = Math.min(n, N);
+  const cls = more ? 'pr' : left < 0 ? 'ov' : 'on';
+  let cells = ''; for (let i=0;i<N;i++) cells += `<i class="${i<f?cls:''}${i===12?' g':''}"></i>`;
   return `<div class="item ${size}"><div class="l1"><span>${icon} ${name}</span><b class="n">${fmt(v)}<small>/ ${fmt(goal)} ${unit}</small></b></div>
-  <div class="bar"><i style="width:${clamp(v/scale*100,0,100)}%;background:${col}"></i>${left<0?`<s style="left:${goal/scale*100}%"></s>`:''}</div>
+  <div class="cells">${cells}</div>
   <div class="l3" style="color:${over?'var(--over)':'var(--sub)'}"><b>${fmt(pct)}%</b> · ${more&&left<0?'달성 +':over?'초과 ':'남음 '}${fmt(Math.abs(left))}${unit}</div></div>`;
 }
 function dash(o, title, tag){
@@ -206,7 +189,7 @@ function barsChart({vals, goals, labels, color, h=190, hi=-1, onclick}){
   vals.forEach((v,i) => {
     const cx = i*bw + bw/2, x = cx - w/2, g = goals[i];
     if (v != null && v > 0) {
-      s += `<rect x="${x}" y="${y(v)}" width="${w}" height="${y(0)-y(v)}" rx="7" fill="${color(v,i)}" ${onclick?`data-act="day:${onclick[i]}" style="cursor:pointer"`:''}/>`;
+      s += `<rect x="${x}" y="${y(v)}" width="${w}" height="${y(0)-y(v)}" rx="0" fill="${color(v,i)}" ${onclick?`data-act="day:${onclick[i]}" style="cursor:pointer"`:''}/>`;
       s += `<text class="val" x="${cx}" y="${Math.min(y(v), g!=null?y(g):99)-7}" text-anchor="middle">${fmt(v)}</text>`;
     }
     if (g != null) s += `<line x1="${x-4}" x2="${x+w+4}" y1="${y(g)}" y2="${y(g)}" stroke="#fff" stroke-width="2.5" stroke-dasharray="5 3"/>`;
@@ -227,9 +210,9 @@ function lineChart(series, {h=200, goal=null}={}){
   series.forEach(q => {
     const pts = q.v.map((v,i)=> v==null?null:[x(i),y(v)]).filter(Boolean);
     if (!pts.length) return;
-    s += `<path d="${pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${q.color}" stroke-width="${q.w||3}" stroke-linecap="round" stroke-linejoin="round" ${q.thin?'opacity=".5"':''}/>`;
-    if (q.dots) pts.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="${q.color}" opacity=".7"/>`);
-    const lp = pts[pts.length-1]; s += `<circle cx="${lp[0]}" cy="${lp[1]}" r="6" fill="${q.color}" stroke="var(--card)" stroke-width="3"/>`;
+    s += `<path d="${pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${q.color}" stroke-width="${q.w||3}" stroke-linecap="butt" stroke-linejoin="miter" ${q.thin?'opacity=".5"':''}/>`;
+    if (q.dots) pts.forEach(p => s += `<rect x="${p[0]-3}" y="${p[1]-3}" width="6" height="6" fill="${q.color}" opacity=".8"/>`);
+    const lp = pts[pts.length-1]; s += `<rect x="${lp[0]-6}" y="${lp[1]-6}" width="12" height="12" fill="${q.color}" stroke="#000" stroke-width="3"/>`;
   });
   const lab = series[0].labels, idx = n<=5 ? [...Array(n).keys()] : [0, Math.floor((n-1)/2), n-1];
   idx.forEach(i => s += `<text x="${x(i)}" y="${h-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${lab[i]}</text>`);
@@ -282,7 +265,7 @@ function viewMonth(){
     cal += `<button class="cell ${cls} ${live(x)?'today':''}" data-act="day:${s}"><span class="d">${lab}</span><span class="k">${fmt(x.net)}</span><span class="p"><i style="width:${clamp(x.protein/GOAL.protein*100,0,100)}%"></i></span></button>`;
   });
   h += `<section class="card"><div class="h"><span>달력 · 순섭취 kcal</span></div>${cal}</div>
-    <div class="legend"><span><i style="background:#1d3257"></i>목표 85% 미만</span><span><i style="background:#16422f"></i>목표 근처</span><span><i style="background:#59301d"></i>초과</span><span><i style="background:var(--pro)"></i>아래 바 = 단백질</span></div></section>`;
+    <div class="legend"><span><i style="background:#2e2e2e"></i>목표 85% 미만</span><span><i style="background:#f2f2f2"></i>목표 근처</span><span><i style="background:var(--over)"></i>초과</span><span><i style="background:var(--pro)"></i>아래 바 = 단백질</span></div></section>`;
   const lb = days.map(dayLabel);
   h += `<section class="card"><div class="h"><span>일별 칼로리 추이</span></div>${lineChart([{v:days.map(s=>BY[s]?BY[s].net:null), color:'#fff', dots:true, labels:lb}], {goal:GOAL.kcal})}<div class="legend"><span><u></u>목표 ${fmt(GOAL.kcal)}</span></div></section>`;
   h += `<section class="card"><div class="h"><span>일별 단백질 추이 (g)</span></div>${lineChart([{v:days.map(s=>BY[s]?BY[s].protein:null), color:'var(--pro)', dots:true, labels:lb}], {goal:GOAL.protein})}<div class="legend"><span><u></u>목표 ${GOAL.protein}g</span></div></section>`;
@@ -306,8 +289,8 @@ function viewTrend(){
     <div class="big sm"><b class="n" style="color:var(--pro)">${fmt(last(pro7))}</b><span>g</span></div>
     ${lineChart([{v:pro, color:'#fff', w:2, thin:true, dots:true, labels}, {v:pro7, color:'var(--pro)', w:4, labels}], {goal:GOAL.protein})}
     <div class="legend"><span><i style="background:var(--pro)"></i>7일 평균</span><span><i style="background:#fff;opacity:.5"></i>일별</span><span><u></u>목표</span></div></section>`;
-  h += `<section class="card"><div class="h"><span>탄수화물 · 지방 (g)</span></div>${lineChart([{v:ds.map(x=>x.carb), color:'#ffbf3c', labels}, {v:ds.map(x=>x.fat), color:'#ff6fb5', labels}])}
-    <div class="legend"><span><i style="background:#ffbf3c"></i>탄수화물</span><span><i style="background:#ff6fb5"></i>지방</span></div></section>`;
+  h += `<section class="card"><div class="h"><span>탄수화물 · 지방 (g)</span></div>${lineChart([{v:ds.map(x=>x.carb), color:'#ffffff', labels}, {v:ds.map(x=>x.fat), color:'#8a8a8a', labels}])}
+    <div class="legend"><span><i style="background:#ffffff"></i>탄수화물</span><span><i style="background:#8a8a8a"></i>지방</span></div></section>`;
   return h;
 }
 
