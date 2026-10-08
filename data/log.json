@@ -731,6 +731,62 @@
       "fat": 0
     },
     {
+      "meal": "식사",
+      "food": "닭가슴살 300g (생)",
+      "kcal": 324,
+      "carb": 0,
+      "protein": 70,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "현미 80ml (조리 전, 약 78g)",
+      "kcal": 279,
+      "carb": 59,
+      "protein": 6,
+      "fat": 2
+    },
+    {
+      "meal": "식사",
+      "food": "카레가루 3스푼 (약 18g)",
+      "kcal": 58,
+      "carb": 10,
+      "protein": 2,
+      "fat": 3
+    },
+    {
+      "meal": "식사",
+      "food": "숙주나물 250g",
+      "kcal": 70,
+      "carb": 14,
+      "protein": 7,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "깻잎 20g",
+      "kcal": 7,
+      "carb": 1,
+      "protein": 1,
+      "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "청양고추 15g",
+      "kcal": 5,
+      "carb": 1,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "상추 20g",
+      "kcal": 3,
+      "carb": 1,
+      "protein": 0,
+      "fat": 0
+    },
+    {
       "meal": "운동",
       "food": "등·가슴·어깨 웨이트 (Hevy, 소모 추정)",
       "kcal": -275,
