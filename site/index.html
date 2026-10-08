@@ -95,6 +95,28 @@ header{position:sticky;top:0;z-index:5;background:linear-gradient(var(--bg) 78%,
 .cd.hi{background:rgba(255,90,95,.18);border-color:rgba(255,90,95,.45)}
 .cd.today{border-color:var(--fg)}
 
+/* 맨 위 블록: 채팅 대시보드와 같은 3줄 형식 */
+.board{padding:6px 14px 12px}
+.it{padding:11px 0}
+.it+.it{border-top:1px solid var(--line)}
+.board .lbl{margin:8px 0 0}
+.l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.l1 span{font-weight:700}
+.l1 b{font-weight:800}
+.l1 small{font:500 12.5px var(--num);color:var(--sub);margin-left:4px;letter-spacing:0}
+.cells{display:flex;gap:3px;margin:7px 0 6px}
+.cells i{flex:1;height:12px;border-radius:3px;background:var(--s2)}
+.cells i.g{margin-left:6px}
+.l3{font-size:13px;color:var(--sub)}
+.l3 b{color:var(--fg);font-weight:700}
+.xl .l1 span{font-size:16px}.xl .l1 b{font-size:30px}.xl .cells i{height:18px}.xl .l3{font-size:14px}
+.lg .l1 span{font-size:15px}.lg .l1 b{font-size:24px}.lg .cells i{height:14px}
+.md .l1 span{font-size:14px}.md .l1 b{font-size:19px}.md .cells i{height:9px}.md .l3{font-size:12.5px}
+.carry{display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
+.carry span{display:block;font-size:12px;color:var(--sub)}
+.carry b{font-size:19px;font-weight:800}
+.carry small{display:block;font-size:11.5px;color:var(--sub)}
+
 .tiles3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
 .tiles3 .card{margin:0;padding:11px}
 .tiles3 span{display:block;font-size:11.5px;color:var(--sub)}
@@ -158,36 +180,23 @@ $('#view').addEventListener('click', e => {
 });
 
 /* ---------- 조각 ---------- */
-function ring(v, goal){
-  const r = 52, c = 2*Math.PI*r, over = v > goal, p = clamp(v/goal, 0, 1);
-  const col = over ? 'var(--over)' : 'var(--kcal)';
-  return `<svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="11"/>
-  <circle cx="64" cy="64" r="${r}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${c*p} ${c}"/></svg>`;
+// 채팅 대시보드와 같은 3줄 형식: 항목·수치 / 칸 막대(목표=12칸, 넘으면 길어짐) / 퍼센트 · 남음
+function cells(v, goal, col, more){
+  const n = Math.round(12*v/goal), N = clamp(Math.max(12,n), 12, 24), f = Math.min(n, N), c = (v > goal && !more) ? 'var(--over)' : col;
+  let s = ''; for (let i=0;i<N;i++) s += `<i${i<f?` style="background:${c}"`:''}${i===12?' class="g"':''}></i>`;
+  return `<div class="cells">${s}</div>`;
 }
-function kcalHero(o, burn){
-  const left = o.kGoal - o.kcal, over = left < 0, col = over ? 'var(--over)' : 'var(--kcal)';
-  return `<section class="card hero"><div class="ring">${ring(o.kcal, o.kGoal)}<div class="c"><b style="color:${col}">${fmt(Math.abs(left))}</b><span>kcal ${over?'초과':'남음'}</span></div></div>
-  <div class="hs"><div><span>순섭취</span><b style="color:${col}">${fmt(o.kcal)}</b></div>
-  <div><span>목표</span><b>${fmt(o.kGoal)}</b></div>
-  <div><span>${burn==null?'달성률':'운동 소모'}</span><b>${burn==null ? fmt(o.kcal/o.kGoal*100)+'%' : (burn?'−'+fmt(burn):'0')}</b></div></div></section>`;
+function line(name, col, v, goal, unit, size, more){
+  const pct = v/goal*100, left = goal - v, over = left < 0 && !more;
+  const msg = more && left < 0 ? `달성 +${fmt(-left)}${unit}` : left < 0 ? `초과 ${fmt(-left)}${unit}` : `남음 ${fmt(left)}${unit}`;
+  return `<div class="it ${size}"><div class="l1"><span><i class="dot" style="background:${col}"></i>${name}</span><b class="n">${fmt(v)}<small>/ ${fmt(goal)} ${unit}</small></b></div>
+  ${cells(v, goal, col, more)}<div class="l3 ${over?'warn':''}"><b>${fmt(pct)}%</b> · ${msg}</div></div>`;
 }
-function proCard(p){
-  const pct = p/GOAL.protein*100, left = GOAL.protein - p;
-  return `<section class="card"><div class="lbl"><span><i class="dot" style="background:var(--pro)"></i>단백질</span><span class="n">${fmt(pct)}%</span></div>
-  <div class="big"><b style="color:var(--pro)">${fmt(p)}</b><small>/ ${GOAL.protein} g</small></div>
-  <div class="bar"><i style="width:${clamp(pct,0,100)}%;background:var(--pro)"></i></div>
-  <div class="note">${left>0?`<b>${fmt(left)}g</b> 더 필요`:`목표 달성 <b>+${fmt(-left)}g</b>`}</div></section>`;
-}
-function macroTile(name, v, goal, col){
-  const left = goal - v, over = left < 0, pct = v/goal*100;
-  return `<div class="card tile"><div class="lbl"><span><i class="dot" style="background:${col}"></i>${name}</span><span class="n">${fmt(pct)}%</span></div>
-  <b class="v" style="color:${over?'var(--over)':col}">${fmt(v)}</b><small>/ ${fmt(goal)}g</small>
-  <div class="bar sm"><i style="width:${clamp(pct,0,100)}%;background:${over?'var(--over)':col}"></i></div>
-  <div class="sub ${over?'warn':''}">${over?`${fmt(-left)}g 초과`:`${fmt(left)}g 남음`}</div></div>`;
-}
-function carryTiles(o){
-  return `<div class="grid2"><div class="card tile"><div class="lbl">초과</div><b class="v ${o.over>0?'warn':''}">${fmt(o.over)}</b><small>kcal</small></div>
-  <div class="card tile"><div class="lbl">누적</div><b class="v">${fmt(o.carry)}</b><small>kcal</small><div class="sub">초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</div></div></div>`;
+function topBlock(o, title){
+  return `<section class="card board">${title?`<div class="lbl">${title}</div>`:''}
+  ${line('칼로리','var(--kcal)', o.kcal, o.kGoal, 'kcal', 'xl')}${line('단백질','var(--pro)', o.p, GOAL.protein, 'g', 'lg', true)}
+  ${line('탄수화물','var(--carb)', o.c, o.cGoal, 'g', 'md')}${line('지방','var(--fat)', o.f, GOAL.fat, 'g', 'md')}
+  ${o.carry!=null?`<div class="carry"><div><span>초과</span><b class="n ${o.over>0?'warn':''}">${fmt(o.over)}kcal</b></div><div><span>누적</span><b class="n">${fmt(o.carry)}kcal</b><small>초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</small></div></div>`:''}</section>`;
 }
 const dayObj = d => ({kcal:d.net, kGoal:d.goal, p:d.protein, c:d.carb, cGoal:d.carbGoal, f:d.fat, over:d.over, carry:d.carry});
 const avgObj = a => ({kcal:avg(a.map(x=>x.net)), kGoal:avg(a.map(x=>x.goal)), p:avg(a.map(x=>x.protein)), c:avg(a.map(x=>x.carb)), cGoal:avg(a.map(x=>x.carbGoal)), f:avg(a.map(x=>x.fat))});
@@ -252,11 +261,9 @@ const legP = '<div class="leg"><span><i style="background:var(--pro)"></i>단백
 function viewDay(){
   const d = BY[S.date], dt = parse(S.date), idx = DATA.days.findIndex(x => x.d === S.date), o = dayObj(d);
   let h = `<div class="datebar"><button data-act="dnav:-1" ${idx>0?'':'disabled'} aria-label="이전 날">‹</button>
-    <div class="dt"><b>${dt.getMonth()+1}월 ${dt.getDate()}일 ${WD[dt.getDay()]}요일</b><span>${live(d)?'오늘 · 진행 중':'기록 완료'} · ${DD}</span></div>
+    <div class="dt"><b>${dt.getMonth()+1}월 ${dt.getDate()}일 ${WD[dt.getDay()]}요일</b><span>${live(d)?'오늘 · 진행 중':'기록 완료'}${d.burn?` · 운동 −${fmt(d.burn)}kcal`:''} · ${DD}</span></div>
     <button data-act="dnav:1" ${idx<DATA.days.length-1?'':'disabled'} aria-label="다음 날">›</button></div>`;
-  h += kcalHero(o, d.burn) + proCard(o.p);
-  h += `<div class="grid2">${macroTile('탄수화물', o.c, o.cGoal, 'var(--carb)')}${macroTile('지방', o.f, GOAL.fat, 'var(--fat)')}</div>`;
-  h += carryTiles(o);
+  h += topBlock(o);
   const w = DATA.days.slice(Math.max(0, idx-6), idx+1), dd = w.map(x=>x.d);
   h += `<section class="card"><div class="lbl">최근 7일 · 칼로리 (순섭취)</div>${barsChart({days:dd, vals:w.map(x=>x.net), goals:w.map(x=>x.goal), color:(v,i)=>kcalColor(v,w[i].goal)})}${legK}</section>`;
   h += `<section class="card"><div class="lbl">최근 7일 · 단백질 (g)</div>${barsChart({days:dd, vals:w.map(x=>x.protein), goals:w.map(()=>GOAL.protein), color:()=>'var(--pro)'})}${legP}</section>`;
@@ -270,7 +277,7 @@ function viewWeek(){
   let h = `<div class="datebar" style="grid-template-columns:1fr"><div class="dt"><b>최근 7일</b><span>${dayLabel(days[0])} – ${dayLabel(days[6])} · ${have.length}일 기록${have.some(live)?' · 오늘 제외 평균':''}</span></div></div>`;
   if (!have.length) return h + '<div class="empty">기록이 없습니다.</div>';
   const fh = fin(have), o = avgObj(fh);
-  h += kcalHero(o) + proCard(o.p) + `<div class="grid2">${macroTile('탄수화물', o.c, o.cGoal, 'var(--carb)')}${macroTile('지방', o.f, GOAL.fat, 'var(--fat)')}</div>` + statTiles(fh, 2);
+  h += topBlock(o, `일평균 · ${fh.length}일 기준`) + statTiles(fh, 2);
   h += `<section class="card"><div class="lbl">일별 칼로리 (순섭취)</div>${barsChart({days, vals:rs.map(x=>x?x.net:null), goals:rs.map(x=>x?x.goal:null), color:(v,i)=>kcalColor(v,rs[i].goal)})}${legK}</section>`;
   h += `<section class="card"><div class="lbl">일별 단백질 (g)</div>${barsChart({days, vals:rs.map(x=>x?x.protein:null), goals:days.map(()=>GOAL.protein), color:()=>'var(--pro)'})}${legP}</section>`;
   return h;
@@ -282,7 +289,7 @@ function viewMonth(){
   let h = `<div class="datebar" style="grid-template-columns:1fr"><div class="dt"><b>최근 30일</b><span>${dayLabel(days[0])} – ${dayLabel(days[29])} · ${md.length}일 기록${md.some(live)?' · 오늘 제외 평균':''}</span></div></div>`;
   if (!md.length) return h + '<div class="empty">기록이 없습니다.</div>';
   const fm = fin(md), o = avgObj(fm);
-  h += kcalHero(o) + proCard(o.p) + `<div class="grid2">${macroTile('탄수화물', o.c, o.cGoal, 'var(--carb)')}${macroTile('지방', o.f, GOAL.fat, 'var(--fat)')}</div>` + statTiles(fm, 1);
+  h += topBlock(o, `일평균 · ${fm.length}일 기준`) + statTiles(fm, 1);
   let cal = '<div class="cal">' + WD.map(w=>`<div class="w">${w}</div>`).join('') + '<div class="cd blank"></div>'.repeat(parse(days[0]).getDay());
   days.forEach((s,i) => {
     const x = BY[s], dd = parse(s), lab = (i===0 || dd.getDate()===1) ? `${dd.getMonth()+1}/${dd.getDate()}` : dd.getDate();
