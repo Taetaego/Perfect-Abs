@@ -8,27 +8,27 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='0' fill='%23000000'/%3E%3Cpath d='M7 22V10h5.5a4 4 0 010 8H7' fill='none' stroke='%23ffd400' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Courier+Prime:wght@400;700&family=Noto+Sans+KR:wght@500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap">
 <style>
 /* 헬창 철판 스타일: 검정 바탕, 흰 굵은 테두리, 직각, 노랑/빨강 포인트, 옛날 HTML 같은 딱딱한 표 느낌 */
 :root{
   --bg:#000; --card:#000; --card2:#262626; --line:#fff; --dim:#444;
   --fg:#fff; --sub:#d6d6d6; --mut:#8c8c8c;
   --good:#f2f2f2; --over:#ff3b1f; --pro:#ffd400;
-  --num:"Anton","Noto Sans KR",Impact,sans-serif;
-  --body:"Noto Sans KR",system-ui,sans-serif;
-  --mono:"Courier Prime","Courier New",monospace;
+  --body:"Malgun Gothic","맑은 고딕","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --num:"Malgun Gothic","맑은 고딕","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --mono:"Malgun Gothic","맑은 고딕","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;border-radius:0}
 html,body{margin:0;background:var(--bg);color:var(--fg);font:700 15px/1.45 var(--body)}
 body{padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}
 .wrap{max-width:560px;margin:0 auto;padding:0 12px}
-.n{font-family:var(--num);font-weight:400;letter-spacing:.01em}
+.n{font-family:var(--num);font-weight:800;letter-spacing:-.02em}
 
 header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:3px solid var(--fg)}
 .bar{display:flex;align-items:center;gap:10px;padding-top:8px;padding-bottom:8px}
-.logo{font:400 24px/1 var(--num);letter-spacing:.1em;background:var(--pro);color:#000;padding:4px 8px 3px}
+.logo{font:900 22px/1 var(--num);letter-spacing:.08em;background:var(--pro);color:#000;padding:4px 8px 3px}
 .tabs{flex:1;display:flex;gap:4px}
 .tabs button{flex:1;border:2px solid var(--fg);background:#000;color:var(--fg);font:900 14px var(--body);padding:5px 0;cursor:pointer}
 .tabs button[aria-selected=true]{background:var(--pro);border-color:var(--pro);color:#000}
@@ -37,7 +37,7 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe
 .nav button{height:36px;border:2px solid var(--fg);background:#000;color:var(--fg);font:900 18px var(--body);cursor:pointer}
 .nav button:disabled{opacity:.25}
 .nav .t{text-align:center}
-.nav .t b{display:block;font:400 22px/1.15 var(--num);letter-spacing:.06em}
+.nav .t b{display:block;font:800 22px/1.15 var(--num);letter-spacing:.06em}
 .nav .t span{font:700 12px var(--mono);color:var(--sub)}
 
 .card{background:var(--card);border:2px solid var(--fg);padding:6px 12px;margin-bottom:10px}
@@ -46,19 +46,19 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe
 .chip.good{border-color:var(--good);color:var(--good)}
 .chip.over{border-color:var(--over);color:var(--over)}
 .big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.big b{font:400 64px/1 var(--num)}
+.big b{font:800 64px/1 var(--num)}
 .big span{font:700 16px var(--mono);color:var(--sub)}
 .big.sm b{font-size:44px}
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .trio div span{display:block;font:700 12px var(--mono);color:var(--sub);text-transform:uppercase}
-.trio div b{display:block;font:400 26px/1.2 var(--num)}
+.trio div b{display:block;font:800 26px/1.2 var(--num)}
 
 /* 항목: 이모지·이름 / 값 → 칸 막대 → 퍼센트·남음 */
 .item{padding:9px 0;border-top:1px solid var(--dim)}
 .item:first-of-type{border-top:0}
 .item .l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .item .l1 span{font-weight:900}
-.item .l1 b{font-weight:400}
+.item .l1 b{font-weight:800}
 .item .l1 small{font:700 13px var(--mono);color:var(--sub);margin-left:5px}
 .cells{display:flex;gap:2px;margin:6px 0 5px}
 .cells i{flex:1;background:var(--card2);height:var(--ch,14px)}
@@ -72,7 +72,7 @@ header{position:sticky;top:0;z-index:5;background:var(--bg);padding-top:env(safe
 .item.lg{--ch:16px}.item.lg .l1 span{font-size:17px}.item.lg .l1 b{font-size:26px}
 .item.md{--ch:12px}.item.md .l1 span{font-size:15px}.item.md .l1 b{font-size:21px}.item.md .l3{font-size:13px}
 .carry{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:2px solid var(--fg);padding:8px 0 4px;font-size:14px;font-weight:900}
-.carry b{display:block;font:400 24px/1.15 var(--num)}
+.carry b{display:block;font:800 24px/1.15 var(--num)}
 .carry small{display:block;font:700 12px var(--mono);color:var(--sub)}
 
 svg.chart{width:100%;height:auto;display:block;overflow:visible;margin-top:8px}
@@ -89,7 +89,7 @@ svg.chart .g{stroke:var(--dim);stroke-width:1}
 .cell.blank{background:none;cursor:default}
 .cell.none{background:transparent;border:1px dashed var(--dim);cursor:default;color:var(--mut)}
 .cell .d{display:block;font:700 11px var(--mono);opacity:.85}
-.cell .k{display:block;font:700 14px var(--mono);margin-top:2px;letter-spacing:-.04em}
+.cell .k{display:block;font:700 14px var(--mono);margin-top:2px;letter-spacing:-.05em}
 .cell .p{position:absolute;left:5px;right:5px;bottom:5px;height:5px;background:rgba(255,255,255,.2)}
 .cell .p i{display:block;height:100%;background:var(--pro)}
 .cell.lo{background:#2e2e2e}
