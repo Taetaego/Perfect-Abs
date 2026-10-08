@@ -59,12 +59,22 @@ for date in sorted(log):
         "carry": round(carry_shown),
     })
 
+body_path = ROOT / "data" / "body.json"
+body = []
+if body_path.exists():
+    raw = json.loads(body_path.read_text(encoding="utf-8"))
+    body = [{"d": d, **{k: v for k, v in rec.items() if k != "src"}} for d, rec in sorted(raw.items())]
+
 OUT.mkdir(parents=True, exist_ok=True)
 shutil.copytree(ROOT / "site", OUT, dirs_exist_ok=True)
 data = {
     "updated": datetime.now(timezone(timedelta(hours=9))).isoformat(timespec="minutes"),
     "goal": {"kcal": KCAL_GOAL, "protein": PROTEIN_GOAL, "fat": FAT_GOAL, "carb": CARB_BASE},
+    "startDate": "2026-10-01",
     "targetDate": "2027-01-01",
+    "targetFatPct": 12,
+    "maintenance": 2200,
+    "body": body,
     "days": days,
 }
 (OUT / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
