@@ -737,14 +737,6 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
-    },
-    {
-      "meal": "운동",
-      "food": "러닝머신 3km 15분 (체중 83.5kg × 3km × 0.9 추정)",
-      "kcal": -225,
-      "carb": 0,
-      "protein": 0,
-      "fat": 0
     }
   ]
 }
