@@ -251,43 +251,41 @@ function viewDay(){
   return h;
 }
 
-/* ---------- 주간 ---------- */
+/* ---------- 주간: 최근 7일 ---------- */
 function viewWeek(){
-  const days = [...Array(7).keys()].map(i => addDays(S.week, i)), rows = days.map(s => BY[s] || null), have = rows.filter(Boolean);
-  const wl = days.map(s=>WD[parse(s).getDay()]);
-  let h = `<div class="nav"><button data-act="week:-1" ${S.week>mondayOf(firstD())?'':'disabled'} aria-label="이전 주">‹</button>
-    <div class="t"><b>${dayLabel(days[0])} – ${dayLabel(days[6])}</b><span>${have.length}일 기록${have.some(live)?' · 오늘 제외 평균':''}</span></div>
-    <button data-act="week:1" ${S.week<mondayOf(lastD())?'':'disabled'} aria-label="다음 주">›</button></div>`;
-  if (!have.length) return h + '<div class="empty-state">이 주 기록이 없습니다.</div>';
+  const end = lastD(), days = [...Array(7).keys()].map(i => addDays(end, i-6));
+  const rows = days.map(s => BY[s] || null), have = rows.filter(Boolean), wl = days.map(s=>WD[parse(s).getDay()]);
+  let h = `<div class="nav" style="grid-template-columns:1fr"><div class="t"><b>최근 7일</b><span>${dayLabel(days[0])} – ${dayLabel(days[6])} · ${have.length}일 기록${have.some(live)?' · 오늘 제외 평균':''}</span></div></div>`;
+  if (!have.length) return h + '<div class="empty-state">기록이 없습니다.</div>';
   const fh = fin(have);
   h += dash(avgObj(fh), '일평균', `${fh.length}일 기준`);
   h += miniStats(fh, 2);
-  h += `<section class="card"><div class="h"><span>일별 칼로리 (순섭취)</span></div>${barsChart({vals:rows.map(x=>x?x.net:null), goals:rows.map(x=>x?x.goal:null), labels:wl, color:(v,i)=>kcalColor(v,rows[i].goal), onclick:days})}${legendBar}</section>`;
-  h += `<section class="card"><div class="h"><span>일별 단백질 (g)</span></div>${barsChart({vals:rows.map(x=>x?x.protein:null), goals:rows.map(x=>x?GOAL.protein:null), labels:wl, color:()=>'var(--pro)', onclick:days})}<div class="legend"><span><u></u>목표 ${GOAL.protein}g</span></div></section>`;
+  h += `<section class="card"><div class="h"><span>일별 칼로리 (순섭취)</span></div>${barsChart({vals:rows.map(x=>x?x.net:null), goals:rows.map(x=>x?x.goal:null), labels:wl, color:(v,i)=>kcalColor(v,rows[i].goal), hi:6, onclick:days})}${legendBar}</section>`;
+  h += `<section class="card"><div class="h"><span>일별 단백질 (g)</span></div>${barsChart({vals:rows.map(x=>x?x.protein:null), goals:rows.map(x=>x?GOAL.protein:null), labels:wl, color:()=>'var(--pro)', hi:6, onclick:days})}<div class="legend"><span><u></u>목표 ${GOAL.protein}g</span></div></section>`;
   return h;
 }
 
-/* ---------- 월간 ---------- */
+/* ---------- 월간: 최근 30일 ---------- */
 function viewMonth(){
-  const [Y, M] = S.month.split('-').map(Number), nDays = new Date(Y, M, 0).getDate(), lead = new Date(Y, M-1, 1).getDay();
-  const md = DATA.days.filter(x => x.d.startsWith(S.month));
-  let h = `<div class="nav"><button data-act="month:-1" ${S.month>firstD().slice(0,7)?'':'disabled'} aria-label="이전 달">‹</button>
-    <div class="t"><b>${Y}년 ${M}월</b><span>${md.length}일 기록${md.some(live)?' · 오늘 제외 평균':''}</span></div>
-    <button data-act="month:1" ${S.month<lastD().slice(0,7)?'':'disabled'} aria-label="다음 달">›</button></div>`;
-  if (!md.length) return h + '<div class="empty-state">이 달 기록이 없습니다.</div>';
+  const end = lastD(), days = [...Array(30).keys()].map(i => addDays(end, i-29));
+  const md = days.map(s => BY[s]).filter(Boolean);
+  let h = `<div class="nav" style="grid-template-columns:1fr"><div class="t"><b>최근 30일</b><span>${dayLabel(days[0])} – ${dayLabel(days[29])} · ${md.length}일 기록${md.some(live)?' · 오늘 제외 평균':''}</span></div></div>`;
+  if (!md.length) return h + '<div class="empty-state">기록이 없습니다.</div>';
   const fm = fin(md);
   h += dash(avgObj(fm), '일평균', `${fm.length}일 기준`);
   h += miniStats(fm, 1);
-  let cal = '<div class="cal">' + WD.map(w=>`<div class="w">${w}</div>`).join('') + '<div class="cell blank"></div>'.repeat(lead);
-  for (let i=1;i<=nDays;i++){
-    const s = `${S.month}-${pad(i)}`, x = BY[s];
-    if (!x) { cal += `<div class="cell none"><span class="d">${i}</span></div>`; continue; }
+  let cal = '<div class="cal">' + WD.map(w=>`<div class="w">${w}</div>`).join('') + '<div class="cell blank"></div>'.repeat(parse(days[0]).getDay());
+  days.forEach((s,i) => {
+    const x = BY[s], dd = parse(s), lab = (i===0 || dd.getDate()===1) ? `${dd.getMonth()+1}/${dd.getDate()}` : dd.getDate();
+    if (!x) { cal += `<div class="cell none"><span class="d">${lab}</span></div>`; return; }
     const r = x.net/x.goal, cls = r>1.03 ? 'hi' : r<.85 ? 'lo' : 'ok';
-    cal += `<button class="cell ${cls} ${live(x)?'today':''}" data-act="day:${s}"><span class="d">${i}</span><span class="k">${fmt(x.net)}</span><span class="p"><i style="width:${clamp(x.protein/GOAL.protein*100,0,100)}%"></i></span></button>`;
-  }
+    cal += `<button class="cell ${cls} ${live(x)?'today':''}" data-act="day:${s}"><span class="d">${lab}</span><span class="k">${fmt(x.net)}</span><span class="p"><i style="width:${clamp(x.protein/GOAL.protein*100,0,100)}%"></i></span></button>`;
+  });
   h += `<section class="card"><div class="h"><span>달력 · 순섭취 kcal</span></div>${cal}</div>
     <div class="legend"><span><i style="background:#1d3257"></i>목표 85% 미만</span><span><i style="background:#16422f"></i>목표 근처</span><span><i style="background:#59301d"></i>초과</span><span><i style="background:var(--pro)"></i>아래 바 = 단백질</span></div></section>`;
-  h += `<section class="card"><div class="h"><span>일별 칼로리 추이</span></div>${lineChart([{v:md.map(x=>x.net), color:'#fff', dots:true, labels:md.map(x=>dayLabel(x.d))}], {goal:GOAL.kcal})}<div class="legend"><span><u></u>목표 ${fmt(GOAL.kcal)}</span></div></section>`;
+  const lb = days.map(dayLabel);
+  h += `<section class="card"><div class="h"><span>일별 칼로리 추이</span></div>${lineChart([{v:days.map(s=>BY[s]?BY[s].net:null), color:'#fff', dots:true, labels:lb}], {goal:GOAL.kcal})}<div class="legend"><span><u></u>목표 ${fmt(GOAL.kcal)}</span></div></section>`;
+  h += `<section class="card"><div class="h"><span>일별 단백질 추이 (g)</span></div>${lineChart([{v:days.map(s=>BY[s]?BY[s].protein:null), color:'var(--pro)', dots:true, labels:lb}], {goal:GOAL.protein})}<div class="legend"><span><u></u>목표 ${GOAL.protein}g</span></div></section>`;
   return h;
 }
 
