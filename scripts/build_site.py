@@ -17,6 +17,9 @@ CARB_CAP = 250
 CARRY_START = "2026-10-02"   # 초과분 이월 시작일
 CARRY_MAX_PER_DAY = 300
 
+KST = timezone(timedelta(hours=9))
+TODAY = datetime.now(KST).date().isoformat()
+
 log = json.loads((ROOT / "data" / "log.json").read_text(encoding="utf-8"))
 
 days = []
@@ -31,9 +34,15 @@ for date in sorted(log):
     fat = sum(e["fat"] for e in entries)
 
     goal = KCAL_GOAL
+    carry_shown = carry
     if date >= CARRY_START:
-        goal = KCAL_GOAL - min(CARRY_MAX_PER_DAY, carry)
-        carry = max(0, carry + net - KCAL_GOAL)
+        prev = carry
+        goal = KCAL_GOAL - min(CARRY_MAX_PER_DAY, prev)
+        carry = max(0, prev + net - KCAL_GOAL)
+        carry_shown = carry
+        if date == TODAY:
+            # 진행 중인 날: 아직 안 먹은 절약분은 반영하지 않고, 쌓인 것 + 오늘 초과만 보여준다
+            carry_shown = (prev - min(CARRY_MAX_PER_DAY, prev)) + max(0, net - goal)
     over = max(0, net - goal)
 
     days.append({
@@ -47,7 +56,7 @@ for date in sorted(log):
         "fat": round(fat),
         "carbGoal": round(min(CARB_CAP, CARB_BASE + burn / 8)),
         "over": round(over),
-        "carry": round(carry),
+        "carry": round(carry_shown),
     })
 
 OUT.mkdir(parents=True, exist_ok=True)
