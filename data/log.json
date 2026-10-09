@@ -853,6 +853,46 @@
       "fat": 3
     },
     {
+      "meal": "식사",
+      "food": "숙주나물 250g",
+      "kcal": 70,
+      "carb": 14,
+      "protein": 7,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 144g",
+      "kcal": 53,
+      "carb": 11,
+      "protein": 4,
+      "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "순두부 250g",
+      "kcal": 113,
+      "carb": 4,
+      "protein": 11,
+      "fat": 7
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 250g (생)",
+      "kcal": 270,
+      "carb": 0,
+      "protein": 58,
+      "fat": 3
+    },
+    {
+      "meal": "식사",
+      "food": "새우까스 63g (천일식품, 라벨 60g당 75kcal 기준, 조리유 별도)",
+      "kcal": 79,
+      "carb": 16,
+      "protein": 4,
+      "fat": 0
+    },
+    {
       "meal": "운동",
       "food": "하체·팔 웨이트 (소모 추정)",
       "kcal": -250,
