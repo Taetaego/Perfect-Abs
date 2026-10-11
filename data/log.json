@@ -1038,5 +1038,55 @@
       "protein": 3,
       "fat": 0
     }
+  ],
+  "2026-10-11": [
+    {
+      "meal": "식사",
+      "food": "숙주나물 205g",
+      "kcal": 57,
+      "carb": 11,
+      "protein": 6,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 183g",
+      "kcal": 68,
+      "carb": 14,
+      "protein": 5,
+      "fat": 1
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 280g (생)",
+      "kcal": 302,
+      "carb": 0,
+      "protein": 65,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "상추 150g",
+      "kcal": 21,
+      "carb": 4,
+      "protein": 2,
+      "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "카레가루 3스푼 (30g, 라벨 100g당 405kcal 기준)",
+      "kcal": 122,
+      "carb": 17,
+      "protein": 2,
+      "fat": 5
+    },
+    {
+      "meal": "식사",
+      "food": "올리브유 1큰술 (15ml)",
+      "kcal": 119,
+      "carb": 0,
+      "protein": 0,
+      "fat": 14
+    }
   ]
 }
