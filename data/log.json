@@ -1095,6 +1095,38 @@
       "carb": 4,
       "protein": 23,
       "fat": 1.5
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 150g (생)",
+      "kcal": 162,
+      "carb": 0,
+      "protein": 35,
+      "fat": 2
+    },
+    {
+      "meal": "식사",
+      "food": "순두부 480g",
+      "kcal": 216,
+      "carb": 7,
+      "protein": 22,
+      "fat": 12
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 155g",
+      "kcal": 57,
+      "carb": 12,
+      "protein": 4,
+      "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "알밤 1개 (약 30g 가정, 이전 기록과 동일 기준)",
+      "kcal": 53,
+      "carb": 12,
+      "protein": 1,
+      "fat": 0
     }
   ]
 }
