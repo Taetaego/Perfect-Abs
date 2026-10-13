@@ -1283,6 +1283,22 @@
       "carb": 4,
       "protein": 23,
       "fat": 1.5
+    },
+    {
+      "meal": "식사",
+      "food": "순두부 300g (생 기준)",
+      "kcal": 165,
+      "carb": 5,
+      "protein": 16,
+      "fat": 9
+    },
+    {
+      "meal": "식사",
+      "food": "숙주 200g",
+      "kcal": 60,
+      "carb": 11,
+      "protein": 6,
+      "fat": 0.4
     }
   ]
 }
