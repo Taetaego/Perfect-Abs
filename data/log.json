@@ -1389,14 +1389,6 @@
       "carb": 6,
       "protein": 4,
       "fat": 5
-    },
-    {
-      "meal": "간식",
-      "food": "제로콜라 1캔",
-      "kcal": 0,
-      "carb": 0.0,
-      "protein": 0.0,
-      "fat": 0.0
     }
   ]
 }
