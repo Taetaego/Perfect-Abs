@@ -9,55 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "_site"
 
-KCAL_GOAL = 1750      # 순섭취 목표
-PROTEIN_GOAL = 170
-FAT_GOAL = 65
-CARB_BASE = 130
-CARB_CAP = 250
-CARRY_START = "2026-10-02"   # 초과분 이월 시작일
-CARRY_MAX_PER_DAY = 300
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from diet_core import (KCAL_GOAL, PROTEIN_GOAL, FAT_GOAL, CARB_BASE, compute, load_log)  # noqa: E402
 
-KST = timezone(timedelta(hours=9))
-TODAY = datetime.now(KST).date().isoformat()
-
-log = json.loads((ROOT / "data" / "log.json").read_text(encoding="utf-8"))
-
-days = []
-carry = 0
-for date in sorted(log):
-    entries = log[date]
-    eaten = sum(e["kcal"] for e in entries if e["kcal"] > 0)
-    burn = -sum(e["kcal"] for e in entries if e["kcal"] < 0)
-    net = eaten - burn
-    carb = sum(e["carb"] for e in entries)
-    protein = sum(e["protein"] for e in entries)
-    fat = sum(e["fat"] for e in entries)
-
-    goal = KCAL_GOAL
-    carry_shown = carry
-    if date >= CARRY_START:
-        prev = carry
-        goal = KCAL_GOAL - min(CARRY_MAX_PER_DAY, prev)
-        carry = max(0, prev + net - KCAL_GOAL)
-        carry_shown = carry
-        if date == TODAY:
-            # 진행 중인 날: 아직 안 먹은 절약분은 반영하지 않고, 쌓인 것 + 오늘 초과만 보여준다
-            carry_shown = (prev - min(CARRY_MAX_PER_DAY, prev)) + max(0, net - goal)
-    over = max(0, net - goal)
-
-    days.append({
-        "d": date,
-        "eaten": round(eaten),
-        "burn": round(burn),
-        "net": round(net),
-        "goal": round(goal),
-        "carb": round(carb),
-        "protein": round(protein),
-        "fat": round(fat),
-        "carbGoal": round(min(CARB_CAP, CARB_BASE + burn / 8)),
-        "over": round(over),
-        "carry": round(carry_shown),
-    })
+days = [{k: v for k, v in d.items() if k != "stack"} for d in compute(load_log())]
 
 OUT.mkdir(parents=True, exist_ok=True)
 shutil.copytree(ROOT / "site", OUT, dirs_exist_ok=True)
