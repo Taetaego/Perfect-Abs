@@ -256,7 +256,7 @@ def run_text(a):
     added, removed, bad, notes, changed = [], [], [], [], False
     for line in text.splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
+        if not line or line.startswith("#") or re.fullmatch(r"-{3,}|_Generated.*", line):
             continue
         if line.startswith("@"):
             v = line[1:].strip()
