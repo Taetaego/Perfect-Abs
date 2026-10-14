@@ -169,12 +169,45 @@ def push(msg):
 
 
 # ---------- 명령 ----------
+def num(x):
+    return float(x) if "." in x else int(x)
+
+
+def load_presets():
+    import json
+    raw = json.loads((Path(__file__).resolve().parent / "presets.json").read_text(encoding="utf-8"))
+    table = {}
+    for key, p in raw.items():
+        for name in [key, *p.get("alias", [])]:
+            table[name] = p
+    return table
+
+
+def preset_item(s):
+    """'현미 80ml', '뉴팩 2', '닭가슴살 1.5덩이', '알밤 3개' 같은 줄임 입력을 항목으로 바꾼다."""
+    m = re.match(r"^(\S+?)\s*([\d.]+)?\s*([^\d\s]*)$", s.strip())
+    table = load_presets()
+    if not m or m.group(1) not in table:
+        raise SystemExit(f"프리셋을 못 찾음: {s} (전체 형식은 '끼니|음식|kcal|탄|단|지')")
+    p = table[m.group(1)]
+    qty = float(m.group(2)) if m.group(2) else 1.0
+    unit = m.group(3) or next(iter(p["units"]))
+    if unit not in p["units"]:
+        raise SystemExit(f"단위 {unit}를 모름: {s} (가능: {', '.join(p['units'])})")
+    ratio = qty / p["units"][unit]
+    k, cb, pr, f = (v * ratio for v in p["base"])
+    qtxt = f"{qty:g}{unit}"
+    food = f"{p['name']} {qtxt}" + (f" ({p['note']})" if p["note"] else "")
+    return {"meal": p["meal"], "food": food, "kcal": round(k), "carb": round(cb, 1),
+            "protein": round(pr, 1), "fat": round(f, 1)}
+
+
 def parse_item(s):
+    if "|" not in s:
+        e = preset_item(s)
+        return {k: (int(v) if isinstance(v, float) and v == int(v) else v) for k, v in e.items()}
     meal, food, k, cb, p, f = [x.strip() for x in s.split("|")]
-    return {"meal": meal, "food": food, "kcal": float(k) if "." in k else int(k),
-            "carb": float(cb) if "." in cb else int(cb),
-            "protein": float(p) if "." in p else int(p),
-            "fat": float(f) if "." in f else int(f)}
+    return {"meal": meal, "food": food, "kcal": num(k), "carb": num(cb), "protein": num(p), "fat": num(f)}
 
 
 def main():
@@ -211,8 +244,9 @@ def main():
         print("\n재료·요리별 칼로리 (탄 / 단 / 지)")
         for e in added:
             print(f"- {e['food']}: {c(e['kcal'])}kcal ({n(e['carb'])} / {n(e['protein'])} / {n(e['fat'])})")
-        t = [sum(e[k] for e in added) for k in ("kcal", "carb", "protein", "fat")]
-        print(f"- 합계: {c(t[0])}kcal (탄 {n(t[1])} / 단 {n(t[2])} / 지 {n(t[3])})")
+        if len(added) > 1:
+            t = [sum(e[k] for e in added) for k in ("kcal", "carb", "protein", "fat")]
+            print(f"- 합계: {c(t[0])}kcal (탄 {n(t[1])} / 단 {n(t[2])} / 지 {n(t[3])})")
     if a.push and a.cmd in ("add", "rm"):
         names = ", ".join(e["food"].split(" (")[0] for e in (added or [])) or "기록 수정"
         push(f"{date[5:].replace('-', '/')} 기록: {names}")
