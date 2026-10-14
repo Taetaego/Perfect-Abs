@@ -158,14 +158,38 @@ def git(*args, check=True):
     return subprocess.run(["git", *args], cwd=core.ROOT, check=check, capture_output=True, text=True)
 
 
+def sync(quiet=False):
+    """기록 전에 원격 최신을 받는다. 다른 세션이 앞서 있어도 안전하게 따라가고, 못 하면 False."""
+    def say(msg):
+        if not quiet:
+            print(msg)
+    branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+    if git("fetch", "-q", "origin", branch, check=False).returncode != 0:
+        say("동기화 실패: 원격에서 가져오지 못했다 (네트워크).")
+        return False
+    if git("status", "--porcelain", "--untracked-files=no").stdout.strip():
+        say("동기화 실패: 커밋 안 된 변경이 있다. 먼저 정리해야 한다.")
+        return False
+    behind = int(git("rev-list", "--count", f"HEAD..origin/{branch}").stdout.strip() or 0)
+    ahead = int(git("rev-list", "--count", f"origin/{branch}..HEAD").stdout.strip() or 0)
+    if behind and ahead:
+        say(f"동기화 실패: 로컬({ahead}개)과 원격({behind}개)이 갈라졌다. 수동 병합 필요.")
+        return False
+    if behind and git("merge", "--ff-only", f"origin/{branch}", check=False).returncode != 0:
+        say("동기화 실패: 원격을 따라가지 못했다.")
+        return False
+    return True
+
+
 def push(msg):
     branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
-    git("fetch", "-q", "origin", branch)
-    git("merge", "--ff-only", f"origin/{branch}", check=False)
     git("add", "data/log.json", "docs/diet_log.md")
     git("commit", "-q", "-m", msg + TRAILER)
     r = git("push", "-u", "origin", branch, check=False)
-    print("push:", "ok" if r.returncode == 0 else "실패\n" + r.stderr)
+    if r.returncode != 0:
+        print("푸시 실패 (커밋은 로컬에 남아 있다, 다음 기록 때 동기화 필요):\n" + r.stderr)
+        sys.exit(1)
+    print("push: ok")
 
 
 # ---------- 명령 ----------
@@ -218,6 +242,12 @@ def main():
     ap.add_argument("--push", action="store_true")
     a = ap.parse_intermixed_args()
     date = a.date or core.today_kst()
+    writes = a.cmd in ("add", "rm")
+    if writes and a.push:
+        if not sync():
+            sys.exit("푸시 기록을 중단했다. 아무것도 바꾸지 않았다.")
+    elif a.cmd in ("status", "list"):
+        sync(quiet=True)   # 읽기 전용: 최신 기록을 보려는 용도, 실패해도 계속
     log = core.load_log()
 
     if a.cmd == "docs":
