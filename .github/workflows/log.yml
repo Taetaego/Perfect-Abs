@@ -1,0 +1,50 @@
+name: Diet log from issue
+
+# 저장소 주인이 이슈를 만들거나 댓글을 달면 그 글을 식단 기록으로 처리한다.
+#   예) 달걀 200 / 현미 80ml, 뉴팩 2 / 닭가슴살 155 / @어제 / 취소 3 / 목록 / 상태
+# 처리 결과(진행률 바)는 같은 이슈에 댓글로 달린다. Claude는 쓰지 않는다.
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: diet-log
+  cancel-in-progress: false
+
+jobs:
+  log:
+    # 주인이 쓴 글만 처리 (PR 댓글·다른 사람 글은 무시)
+    if: >-
+      github.event.sender.type == 'User' &&
+      contains(github.repository_owner, github.actor) &&
+      contains(github.actor, github.repository_owner) &&
+      (github.event_name == 'issues' || !github.event.issue.pull_request)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record
+        env:
+          BODY: ${{ github.event.comment.body || github.event.issue.body }}
+          GH_TOKEN: ${{ github.token }}
+          DIET_NO_TRAILER: "1"
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "diet-log[bot]"
+          git config user.email "diet-log@users.noreply.github.com"
+          set +e
+          printf '%s\n' "$BODY" | python3 scripts/diet.py text --push > out.txt 2>&1
+          status=$?
+          set -e
+          # 진행률 코드블록이 이미 ``` 로 감싸져 있으므로 출력 그대로 댓글로 단다
+          if [ $status -ne 0 ]; then { echo "⚠️ 기록 실패 (exit $status)"; echo; cat out.txt; } > out2.txt; mv out2.txt out.txt; fi
+          gh issue comment "$ISSUE" --body-file out.txt
+          if grep -q '^push: ok' out.txt; then
+            gh workflow run pages.yml --ref "${GITHUB_REF_NAME}"
+          fi

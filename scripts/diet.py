@@ -7,6 +7,7 @@
   diet.py list [--date YYYY-MM-DD]
   diet.py status [--date YYYY-MM-DD]       (기록 없이 현재 상태만)
   diet.py docs                             (docs/diet_log.md만 다시 만든다)
+  diet.py text [--push] < 자유입력        (여러 줄: "달걀 200", "현미 80ml, 뉴팩 2", "@어제", "취소 3", "상태")
 날짜를 안 주면 오늘(KST). docs/diet_log.md는 AUTO_FROM 이후 날짜 섹션과 주간 요약만 자동으로 만든다.
 """
 import argparse
@@ -26,7 +27,8 @@ WEEK = "월화수목금토일"
 SEC3 = "## 3. 식단 기록"
 SEC4 = "## 4. 주간 요약 (누적용)"
 SEC5 = "## 5. 메모"
-TRAILER = (
+import os
+TRAILER = "" if os.environ.get("DIET_NO_TRAILER") else (
     "\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>\n"
     "Claude-Session: https://claude.ai/code/session_01HjTMLUsNV4U4CjakWz4E4R"
 )
@@ -207,17 +209,26 @@ def load_presets():
     return table
 
 
+class BadItem(Exception):
+    pass
+
+
 def preset_item(s):
-    """'현미 80ml', '뉴팩 2', '닭가슴살 1.5덩이', '알밤 3개' 같은 줄임 입력을 항목으로 바꾼다."""
-    m = re.match(r"^(\S+?)\s*([\d.]+)?\s*([^\d\s]*)$", s.strip())
+    """'현미 80ml', '뉴팩 2', '달걀 200', '닭가슴살 1.5덩이' 같은 줄임 입력을 항목으로 바꾼다."""
+    s = s.strip()
     table = load_presets()
-    if not m or m.group(1) not in table:
-        raise SystemExit(f"프리셋을 못 찾음: {s} (전체 형식은 '끼니|음식|kcal|탄|단|지')")
-    p = table[m.group(1)]
-    qty = float(m.group(2)) if m.group(2) else 1.0
-    unit = m.group(3) or next(iter(p["units"]))
+    if s in table:   # 수량 없이 이름만 (예: "제로콜라")
+        m = None
+        p, qty, unit = table[s], 1.0, ""
+    else:
+        m = re.match(r"^(\S+?)\s*(\d+(?:\.\d+)?)\s*([^\d\s]*)$", s)
+        if not m or m.group(1) not in table:
+            raise BadItem(s)
+        p, qty, unit = table[m.group(1)], float(m.group(2)), m.group(3)
+    if not unit:
+        unit = p.get("big") if qty > 30 and p.get("big") else next(iter(p["units"]))
     if unit not in p["units"]:
-        raise SystemExit(f"단위 {unit}를 모름: {s} (가능: {', '.join(p['units'])})")
+        raise BadItem(f"{s} (단위 {unit}; 가능: {', '.join(p['units'])})")
     ratio = qty / p["units"][unit]
     k, cb, pr, f = (v * ratio for v in p["base"])
     qtxt = f"{qty:g}{unit}"
@@ -234,13 +245,88 @@ def parse_item(s):
     return {"meal": meal, "food": food, "kcal": num(k), "carb": num(cb), "protein": num(p), "fat": num(f)}
 
 
+def run_text(a):
+    """자유 입력 여러 줄(이슈 댓글 등)을 처리한다. 프리셋으로 못 읽는 줄은 기록하지 않고 알려 준다."""
+    from datetime import timedelta
+    text = sys.stdin.read() if not a.items else "\n".join(a.items)
+    date = a.date or core.today_kst()
+    if a.push and not sync():
+        sys.exit("동기화 실패로 기록하지 않았다.")
+    log = core.load_log()
+    added, removed, bad, notes, changed = [], [], [], [], False
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("@"):
+            v = line[1:].strip()
+            if v in ("어제", "yesterday"):
+                date = (Date.fromisoformat(core.today_kst()) - timedelta(days=1)).isoformat()
+            elif re.fullmatch(r"\d{1,2}[-/.]\d{1,2}", v):
+                mo, dd = re.split(r"[-/.]", v)
+                date = f"{core.today_kst()[:4]}-{int(mo):02d}-{int(dd):02d}"
+            elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", v):
+                date = v
+            else:
+                bad.append(line)
+            continue
+        if line in ("상태", "status"):
+            continue
+        if line in ("목록", "list"):
+            notes += [f"{i}) {e['food']} {e['kcal']}kcal" for i, e in enumerate(log.get(date, []))]
+            continue
+        m = re.match(r"^(취소|삭제)\s+([\d\s,]+)$", line)
+        if m:
+            idx = sorted({int(x) for x in re.findall(r"\d+", m.group(2))}, reverse=True)
+            for i in idx:
+                if 0 <= i < len(log.get(date, [])):
+                    removed.append(log[date].pop(i))
+                    changed = True
+                else:
+                    bad.append(f"{line} (번호 {i} 없음)")
+            continue
+        parts = [line] if "|" in line else [x for x in re.split(r"[,，;]", line) if x.strip()]
+        for part in (x.strip() for x in parts):
+            try:
+                item = parse_item(part) if "|" in part else preset_item(part)
+            except (BadItem, ValueError) as e:
+                bad.append(str(e) or part)
+                continue
+            log.setdefault(date, []).append(item)
+            added.append(item)
+            changed = True
+    if changed:
+        core.save_log(log)
+        build_docs(log)
+    print(f"[{date}]")
+    if removed:
+        print("삭제:", ", ".join(e["food"] for e in removed))
+    if notes:
+        print("\n".join(notes))
+    print(dashboard(day_of(log, date)))
+    if added:
+        print("\n재료·요리별 칼로리 (탄 / 단 / 지)")
+        for e in added:
+            print(f"- {e['food']}: {c(e['kcal'])}kcal ({n(e['carb'])} / {n(e['protein'])} / {n(e['fat'])})")
+        if len(added) > 1:
+            t = [sum(e[k] for e in added) for k in ("kcal", "carb", "protein", "fat")]
+            print(f"- 합계: {c(t[0])}kcal (탄 {n(t[1])} / 단 {n(t[2])} / 지 {n(t[3])})")
+    if bad:
+        print("\n⚠️ 기록 못 한 줄 (프리셋 이름·단위 확인, 새 음식은 Claude에게):\n" + "\n".join(f"- {b}" for b in bad))
+    if changed and a.push:
+        names = ", ".join(e["food"].split(" (")[0] for e in added) or "기록 수정"
+        push(f"{date[5:].replace('-', '/')} 기록: {names}")
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["add", "rm", "list", "status", "docs"])
+    ap.add_argument("cmd", choices=["add", "rm", "list", "status", "docs", "text"])
     ap.add_argument("items", nargs="*")
     ap.add_argument("--date")
     ap.add_argument("--push", action="store_true")
     a = ap.parse_intermixed_args()
+    if a.cmd == "text":
+        return run_text(a)
     date = a.date or core.today_kst()
     writes = a.cmd in ("add", "rm")
     if writes and a.push:
