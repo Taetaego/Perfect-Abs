@@ -226,7 +226,13 @@ def preset_item(s):
             raise BadItem(s)
         p, qty, unit = table[m.group(1)], float(m.group(2)), m.group(3)
     if not unit:
-        unit = p.get("big") if qty > 30 and p.get("big") else next(iter(p["units"]))
+        first = next(iter(p["units"]))
+        if p.get("big") and qty > p.get("big_over", 30):
+            if qty < p.get("big_min", 30):
+                raise BadItem(f"{s} (수량 {qty:g}이 애매함: {first}인지 {p['big']}인지 단위를 붙여 주세요)")
+            unit = p["big"]
+        else:
+            unit = first
     if unit not in p["units"]:
         raise BadItem(f"{s} (단위 {unit}; 가능: {', '.join(p['units'])})")
     ratio = qty / p["units"][unit]

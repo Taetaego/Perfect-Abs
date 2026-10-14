@@ -53,7 +53,9 @@
   "alias": [
    "닭"
   ],
-  "big": "g"
+  "big": "g",
+  "big_over": 5,
+  "big_min": 30
  },
  "올리브유": {
   "name": "올리브유",
@@ -73,7 +75,9 @@
   "alias": [
    "올리브"
   ],
-  "big": "ml"
+  "big": "ml",
+  "big_over": 5,
+  "big_min": 5
  },
  "김": {
   "name": "광천김",
@@ -184,7 +188,9 @@
    0
   ],
   "alias": [],
-  "big": "g"
+  "big": "g",
+  "big_over": 3,
+  "big_min": 30
  },
  "카레가루": {
   "name": "카레가루",
@@ -333,7 +339,9 @@
   "alias": [
    "달걀"
   ],
-  "big": "g"
+  "big": "g",
+  "big_over": 12,
+  "big_min": 30
  },
  "김치": {
   "name": "배추김치",
