@@ -1455,6 +1455,30 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "저녁",
+      "food": "간짜장 1인분 (맵게, 추정)",
+      "kcal": 870,
+      "carb": 110,
+      "protein": 22,
+      "fat": 33
+    },
+    {
+      "meal": "저녁",
+      "food": "소주 0.2병 (추정)",
+      "kcal": 70,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "저녁",
+      "food": "사이다 500ml 1병 (라벨)",
+      "kcal": 220,
+      "carb": 54,
+      "protein": 0,
+      "fat": 0
     }
   ]
 }
