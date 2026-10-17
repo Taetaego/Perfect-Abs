@@ -1627,6 +1627,38 @@
       "carb": 4,
       "protein": 23,
       "fat": 1.5
+    },
+    {
+      "meal": "간식",
+      "food": "찹쌀떡 3개 (추정)",
+      "kcal": 330,
+      "carb": 75,
+      "protein": 6,
+      "fat": 1
+    },
+    {
+      "meal": "간식",
+      "food": "무화과 7개 (건조, 추정)",
+      "kcal": 260,
+      "carb": 63,
+      "protein": 3,
+      "fat": 1
+    },
+    {
+      "meal": "간식",
+      "food": "요거트 1그릇 150g (추정)",
+      "kcal": 100,
+      "carb": 7,
+      "protein": 6,
+      "fat": 5
+    },
+    {
+      "meal": "간식",
+      "food": "홍시 2개 (추정)",
+      "kcal": 130,
+      "carb": 34,
+      "protein": 1,
+      "fat": 0
     }
   ]
 }
