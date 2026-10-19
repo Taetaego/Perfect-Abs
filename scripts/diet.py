@@ -8,7 +8,7 @@
   diet.py status [--date YYYY-MM-DD]       (기록 없이 현재 상태만)
   diet.py docs                             (docs/diet_log.md만 다시 만든다)
   diet.py text [--push] < 자유입력        (여러 줄: "달걀 200", "현미 80ml, 뉴팩 2", "@어제", "취소 3", "상태")
-날짜를 안 주면 오늘(KST). docs/diet_log.md는 AUTO_FROM 이후 날짜 섹션과 주간 요약만 자동으로 만든다.
+날짜를 안 주면 오늘(KST, 새벽 4시 전은 전날). docs/diet_log.md는 AUTO_FROM 이후 날짜 섹션과 주간 요약만 자동으로 만든다.
 """
 import argparse
 import math

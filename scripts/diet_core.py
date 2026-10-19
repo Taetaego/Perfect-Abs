@@ -15,10 +15,11 @@ CARRY_START = "2026-10-02"   # 초과분 이월 시작일
 CARRY_MAX_PER_DAY = 300
 
 KST = timezone(timedelta(hours=9))
+DAY_START_HOUR = 4   # 새벽 4시 전 기록은 전날로 친다 (자정 넘긴 야식)
 
 
 def today_kst():
-    return datetime.now(KST).date().isoformat()
+    return (datetime.now(KST) - timedelta(hours=DAY_START_HOUR)).date().isoformat()
 
 
 def load_log():
