@@ -6,11 +6,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LOG_PATH = ROOT / "data" / "log.json"
 
-KCAL_GOAL = 1750      # 순섭취 목표
 PROTEIN_GOAL = 170
-FAT_GOAL = 65
-CARB_BASE = 130
 CARB_CAP = 250
+# 시작일별 목표 (순섭취 kcal, 지방 g, 탄수화물 기본 g). 마지막 줄이 현재 목표.
+GOAL_STEPS = [
+    ("2000-01-01", {"kcal": 1750, "fat": 65, "carb": 130}),
+    ("2026-10-21", {"kcal": 1600, "fat": 55, "carb": 100}),   # 적자 −600 (유지 2,200 기준, 주당 약 0.55kg)
+]
+KCAL_GOAL = GOAL_STEPS[-1][1]["kcal"]
+FAT_GOAL = GOAL_STEPS[-1][1]["fat"]
+CARB_BASE = GOAL_STEPS[-1][1]["carb"]
 CARRY_START = "2026-10-02"   # 초과분 이월 시작일
 CARRY_MAX_PER_DAY = 300
 
@@ -20,6 +25,14 @@ DAY_START_HOUR = 4   # 새벽 4시 전 기록은 전날로 친다 (자정 넘긴
 
 def today_kst():
     return (datetime.now(KST) - timedelta(hours=DAY_START_HOUR)).date().isoformat()
+
+
+def goals_for(date):
+    g = GOAL_STEPS[0][1]
+    for start, step in GOAL_STEPS:
+        if date >= start:
+            g = step
+    return g
 
 
 def load_log():
@@ -44,14 +57,15 @@ def compute(log, today=None):
         protein = sum(e["protein"] for e in entries)
         fat = sum(e["fat"] for e in entries)
 
-        goal = KCAL_GOAL
+        base = goals_for(date)
+        goal = base["kcal"]
         stack = 0
         carry_shown = carry
         if date >= CARRY_START:
             prev = carry
-            goal = KCAL_GOAL - min(CARRY_MAX_PER_DAY, prev)
+            goal = base["kcal"] - min(CARRY_MAX_PER_DAY, prev)
             stack = prev - min(CARRY_MAX_PER_DAY, prev)
-            carry = max(0, prev + net - KCAL_GOAL)
+            carry = max(0, prev + net - base["kcal"])
             carry_shown = carry
             if date == today:
                 carry_shown = stack + max(0, net - goal)
@@ -66,7 +80,9 @@ def compute(log, today=None):
             "carb": round(carb),
             "protein": round(protein),
             "fat": round(fat),
-            "carbGoal": round(min(CARB_CAP, CARB_BASE + burn / 8)),
+            "carbGoal": round(min(CARB_CAP, base["carb"] + burn / 8)),
+            "carbBase": base["carb"],
+            "fatGoal": base["fat"],
             "over": round(over),
             "carry": round(carry_shown),
             "stack": round(stack),

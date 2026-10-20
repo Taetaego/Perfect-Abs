@@ -195,11 +195,11 @@ function line(name, col, v, goal, unit, size, more){
 function topBlock(o, title){
   return `<section class="card board">${title?`<div class="lbl">${title}</div>`:''}
   ${line('칼로리','var(--kcal)', o.kcal, o.kGoal, 'kcal', 'xl')}${line('단백질','var(--pro)', o.p, GOAL.protein, 'g', 'lg', true)}
-  ${line('탄수화물','var(--carb)', o.c, o.cGoal, 'g', 'md')}${line('지방','var(--fat)', o.f, GOAL.fat, 'g', 'md')}
+  ${line('탄수화물','var(--carb)', o.c, o.cGoal, 'g', 'md')}${line('지방','var(--fat)', o.f, o.fGoal ?? GOAL.fat, 'g', 'md')}
   ${o.carry!=null?`<div class="carry"><div><span>초과</span><b class="n ${o.over>0?'warn':''}">${fmt(o.over)}kcal</b></div><div><span>누적</span><b class="n">${fmt(o.carry)}kcal</b><small>초과 ${fmt(o.over)} + 쌓인 것 ${fmt(o.carry-o.over)}</small></div></div>`:''}</section>`;
 }
-const dayObj = d => ({kcal:d.net, kGoal:d.goal, p:d.protein, c:d.carb, cGoal:d.carbGoal, f:d.fat, over:d.over, carry:d.carry});
-const avgObj = a => ({kcal:avg(a.map(x=>x.net)), kGoal:avg(a.map(x=>x.goal)), p:avg(a.map(x=>x.protein)), c:avg(a.map(x=>x.carb)), cGoal:avg(a.map(x=>x.carbGoal)), f:avg(a.map(x=>x.fat))});
+const dayObj = d => ({kcal:d.net, kGoal:d.goal, p:d.protein, c:d.carb, cGoal:d.carbGoal, f:d.fat, fGoal:d.fatGoal, over:d.over, carry:d.carry});
+const avgObj = a => ({kcal:avg(a.map(x=>x.net)), kGoal:avg(a.map(x=>x.goal)), p:avg(a.map(x=>x.protein)), c:avg(a.map(x=>x.carb)), cGoal:avg(a.map(x=>x.carbGoal)), f:avg(a.map(x=>x.fat)), fGoal:avg(a.map(x=>x.fatGoal))});
 function statTiles(a, digits){
   const defi = a.reduce((s,x)=>s+(2200-x.net),0);
   return `<div class="tiles3"><div class="card"><span>누적 적자</span><b>${defi>=0?'−':'+'}${fmt(Math.abs(defi))}</b></div><div class="card"><span>추정 감량</span><b>${(defi/7700).toFixed(digits)}kg</b></div><div class="card"><span>기록</span><b>${a.length}일</b></div></div>`;

@@ -71,7 +71,7 @@ def dashboard(d):
         block("🔥 칼로리", d["net"], d["goal"], "kcal"),
         block("🍗 단백질", d["protein"], core.PROTEIN_GOAL, "g"),
         block("🍚 탄수화물", d["carb"], d["carbGoal"], "g"),
-        block("🥑 지방", d["fat"], core.FAT_GOAL, "g"),
+        block("🥑 지방", d["fat"], d["fatGoal"], "g"),
     ]
     out = "\n\n".join(parts)
     out += f"\n\n⚠️ 초과  {c(over)}kcal\n📦 누적  {c(over + stack)}kcal  (초과 {c(over)} + 쌓인 것 {c(stack)})"
@@ -118,10 +118,10 @@ def day_section(log, d):
         lines.append(f"- {head} / 오늘 목표 {c(d['goal'])} → 남은 약 {c(left)} kcal")
     else:
         lines.append(f"- {head} / 오늘 목표 {c(d['goal'])} → 약 {c(-left)} kcal 초과 (이월 누적 {c(d['carry'])})")
-    cg = f"목표 {d['carbGoal']}g = 130 + {burn}/8" if burn else f"목표 {d['carbGoal']}g"
+    cg = f"목표 {d['carbGoal']}g = {d['carbBase']} + {burn}/8" if burn else f"목표 {d['carbGoal']}g"
     lines.append(
         f"- {fmt_rem('단백질', d['protein'], core.PROTEIN_GOAL)} / "
-        f"{fmt_rem('탄수화물', d['carb'], d['carbGoal'])} ({cg}) / {fmt_rem('지방', d['fat'], core.FAT_GOAL)}"
+        f"{fmt_rem('탄수화물', d['carb'], d['carbGoal'])} ({cg}) / {fmt_rem('지방', d['fat'], d['fatGoal'])}"
     )
     return "\n".join(lines) + "\n\n"
 
