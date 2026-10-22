@@ -1949,6 +1949,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 320g",
+      "kcal": 346,
+      "carb": 0,
+      "protein": 74.7,
+      "fat": 4.3
+    },
+    {
+      "meal": "식사",
+      "food": "라면스프 10g (진라면 스틱 5g=12kcal 기준)",
+      "kcal": 24,
+      "carb": 4,
+      "protein": 2,
+      "fat": 0
     }
   ]
 }
