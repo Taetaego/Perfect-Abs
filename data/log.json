@@ -2015,6 +2015,38 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "현미 (조리 전) 90ml (1ml=0.97g)",
+      "kcal": 314,
+      "carb": 66.6,
+      "protein": 7.2,
+      "fat": 2.7
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 214g",
+      "kcal": 231,
+      "carb": 0,
+      "protein": 49.9,
+      "fat": 2.9
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 160g",
+      "kcal": 59,
+      "carb": 12.5,
+      "protein": 4.3,
+      "fat": 0.5
+    },
+    {
+      "meal": "식사",
+      "food": "계란 6개 (개당 약 55g, g는 껍질 포함 무게)",
+      "kcal": 450,
+      "carb": 2.4,
+      "protein": 39,
+      "fat": 30
     }
   ]
 }
