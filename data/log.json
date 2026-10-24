@@ -2089,6 +2089,14 @@
       "carb": 22,
       "protein": 3,
       "fat": 6
+    },
+    {
+      "meal": "간식",
+      "food": "반시고구마 1봉 (60g 라벨 187kcal)",
+      "kcal": 187,
+      "carb": 44,
+      "protein": 3,
+      "fat": 0
     }
   ]
 }
