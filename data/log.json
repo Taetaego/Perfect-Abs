@@ -2121,6 +2121,22 @@
       "carb": 44,
       "protein": 3,
       "fat": 0
+    },
+    {
+      "meal": "반찬",
+      "food": "배추김치 150g",
+      "kcal": 38,
+      "carb": 6,
+      "protein": 2.7,
+      "fat": 0.8
+    },
+    {
+      "meal": "식사",
+      "food": "삶은 돼지 내장 약 250g",
+      "kcal": 330,
+      "carb": 0,
+      "protein": 30,
+      "fat": 22
     }
   ]
 }
