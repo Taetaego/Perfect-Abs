@@ -2065,6 +2065,30 @@
       "carb": 8,
       "protein": 5,
       "fat": 12
+    },
+    {
+      "meal": "점심",
+      "food": "어탕칼국수 곱빼기",
+      "kcal": 840,
+      "carb": 110,
+      "protein": 35,
+      "fat": 28
+    },
+    {
+      "meal": "점심",
+      "food": "단호박 아주 작은 한조각(약 30g)",
+      "kcal": 25,
+      "carb": 6,
+      "protein": 1,
+      "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "오리지널 카스타드 1개",
+      "kcal": 150,
+      "carb": 22,
+      "protein": 3,
+      "fat": 6
     }
   ]
 }
