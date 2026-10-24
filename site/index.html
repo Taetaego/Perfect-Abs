@@ -157,12 +157,13 @@ const dayLabel = s => { const d = parse(s); return `${d.getMonth()+1}.${d.getDat
 let DATA, BY = {}, GOAL, DD = '';
 const S = { tab:'day', date:null };
 const lastD = () => DATA.days[DATA.days.length-1].d;
-const live = x => x.d === lastD() && x.d === iso(new Date());   // 오늘 진행 중
+const todayKST = () => iso(new Date(Date.now() + (new Date().getTimezoneOffset() + 540 - 240) * 6e4));   // KST, 새벽 4시 전은 전날
+const live = x => x.d === lastD() && x.d === todayKST();   // 오늘 진행 중
 const fin = a => { const f = a.filter(x => !live(x)); return f.length ? f : a; };
 
 fetch('data.json', {cache:'no-store'}).then(r => r.json()).then(d => {
   DATA = d; GOAL = d.goal; d.days.forEach(x => BY[x.d] = x);
-  S.date = lastD();
+  S.date = BY[todayKST()] ? todayKST() : lastD();
   const left = Math.ceil((parse(d.targetDate) - new Date(new Date().toDateString())) / 864e5);
   DD = `D-${Math.max(0,left)} 복근`;
   $('#foot').textContent = `업데이트 ${d.updated.replace('T',' ').slice(0,16)}`;

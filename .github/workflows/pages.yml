@@ -2,7 +2,7 @@ name: Deploy Diet page
 
 on:
   push:
-    branches: [ccr-c0a6bca3-fu3lns, main]
+    branches: [ccr-c0a6bca3-fu3lns, ccr-15eef771-tkwt8m, main]
     paths:
       - data/log.json
       - site/**
@@ -10,6 +10,8 @@ on:
       - scripts/diet_core.py
       - .github/workflows/pages.yml
   workflow_dispatch:
+  schedule:
+    - cron: '5 19 * * *'   # 매일 04:05 KST, 기록이 없어도 새 날짜 칸이 생기게 다시 배포
 
 permissions:
   contents: read

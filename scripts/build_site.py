@@ -10,9 +10,11 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "_site"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from diet_core import (KCAL_GOAL, PROTEIN_GOAL, FAT_GOAL, CARB_BASE, compute, load_log)  # noqa: E402
+from diet_core import (KCAL_GOAL, PROTEIN_GOAL, FAT_GOAL, CARB_BASE, compute, load_log, today_kst)  # noqa: E402
 
-days = [{k: v for k, v in d.items() if k != "stack"} for d in compute(load_log())]
+log = load_log()
+log.setdefault(today_kst(), [])   # 아직 기록이 없어도 오늘 칸은 항상 있다
+days = [{k: v for k, v in d.items() if k != "stack"} for d in compute(log)]
 
 OUT.mkdir(parents=True, exist_ok=True)
 shutil.copytree(ROOT / "site", OUT, dirs_exist_ok=True)
