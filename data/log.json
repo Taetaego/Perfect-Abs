@@ -2507,6 +2507,14 @@
       "carb": 0,
       "protein": 53,
       "fat": 3
+    },
+    {
+      "meal": "간식",
+      "food": "광천김 3봉 (봉당 20kcal)",
+      "kcal": 60,
+      "carb": 3,
+      "protein": 6,
+      "fat": 4.5
     }
   ]
 }
