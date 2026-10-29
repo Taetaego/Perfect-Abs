@@ -2499,6 +2499,14 @@
       "carb": 2,
       "protein": 20,
       "fat": 2
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 227g",
+      "kcal": 245,
+      "carb": 0,
+      "protein": 53,
+      "fat": 3
     }
   ]
 }
