@@ -2523,6 +2523,22 @@
       "carb": 2,
       "protein": 20,
       "fat": 2
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
+    },
+    {
+      "meal": "간식",
+      "food": "우유 125ml",
+      "kcal": 81,
+      "carb": 6.2,
+      "protein": 4.4,
+      "fat": 4.4
     }
   ]
 }
