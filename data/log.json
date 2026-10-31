@@ -2687,6 +2687,22 @@
       "carb": 8,
       "protein": 5,
       "fat": 12
+    },
+    {
+      "meal": "간식",
+      "food": "하루견과 1봉(약 25g)",
+      "kcal": 165,
+      "carb": 8,
+      "protein": 5,
+      "fat": 12
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
     }
   ]
 }
