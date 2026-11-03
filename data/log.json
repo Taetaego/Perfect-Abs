@@ -3021,6 +3021,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 14
+    },
+    {
+      "meal": "간식",
+      "food": "뉴트리션팩토리 프로틴 2스쿱 (30g 라벨 기준)",
+      "kcal": 240,
+      "carb": 8,
+      "protein": 46,
+      "fat": 3
+    },
+    {
+      "meal": "간식",
+      "food": "귤 400g",
+      "kcal": 160,
+      "carb": 40,
+      "protein": 3,
+      "fat": 0
     }
   ]
 }
