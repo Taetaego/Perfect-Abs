@@ -27,5 +27,8 @@
  "deadlift":           {"name": "데드리프트",          "rom": 0.60, "bw": 0.40},
  "bicepcurl":          {"name": "바이셉 컬",           "rom": 0.45, "bw": 0},
  "tricepspushdown":    {"name": "트라이셉 푸시다운",   "rom": 0.40, "bw": 0},
- "cablecrunch":        {"name": "케이블 크런치",       "rom": 0.35, "bw": 0}
+ "cablecrunch":        {"name": "케이블 크런치",       "rom": 0.35, "bw": 0},
+ "hipadduction":       {"name": "힙 어덕션",           "rom": 0.30, "bw": 0},
+ "crossbodyhammercurl": {"name": "크로스바디 해머컬",  "rom": 0.45, "bw": 0},
+ "singlearmtricepspushdown": {"name": "싱글암 트라이셉 푸시다운", "rom": 0.40, "bw": 0}
 }
