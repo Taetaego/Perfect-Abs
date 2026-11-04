@@ -3071,6 +3071,30 @@
       "carb": 4,
       "protein": 23,
       "fat": 1.5
+    },
+    {
+      "meal": "식사",
+      "food": "현미 (조리 전) 70ml (1ml=0.97g)",
+      "kcal": 244,
+      "carb": 51.8,
+      "protein": 5.6,
+      "fat": 2.1
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 180g",
+      "kcal": 194,
+      "carb": 0,
+      "protein": 42,
+      "fat": 2.4
+    },
+    {
+      "meal": "식사",
+      "food": "곤약 500g (라벨 35kcal)",
+      "kcal": 35,
+      "carb": 8,
+      "protein": 0,
+      "fat": 0
     }
   ]
 }
