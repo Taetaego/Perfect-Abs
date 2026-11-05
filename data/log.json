@@ -3265,6 +3265,30 @@
       "carb": 10,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 130g",
+      "kcal": 140,
+      "carb": 0,
+      "protein": 30.3,
+      "fat": 1.7
+    },
+    {
+      "meal": "식사",
+      "food": "숙주나물 300g",
+      "kcal": 84,
+      "carb": 16.8,
+      "protein": 8.4,
+      "fat": 1.2
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 200g",
+      "kcal": 74,
+      "carb": 15.6,
+      "protein": 5.4,
+      "fat": 0.6
     }
   ]
 }
