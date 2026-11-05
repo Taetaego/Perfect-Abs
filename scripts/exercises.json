@@ -13,6 +13,7 @@
  "shoulderpress":      {"name": "숄더프레스",          "rom": 0.50, "bw": 0},
  "overheadpress":      {"name": "오버헤드프레스",      "rom": 0.55, "bw": 0},
  "lateralraise":       {"name": "레터럴 레이즈",       "rom": 0.50, "bw": 0},
+ "reardeltreversefly":  {"name": "리어델트 리버스 플라이", "rom": 0.50, "bw": 0},
  "seatedrow":          {"name": "시티드 로우",         "rom": 0.50, "bw": 0},
  "bentoverrow":        {"name": "벤트오버 로우",       "rom": 0.45, "bw": 0},
  "pullup":             {"name": "풀업",                "rom": 0.60, "bw": 0.95},
