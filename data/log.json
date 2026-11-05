@@ -3137,6 +3137,86 @@
       "carb": 7,
       "protein": 4,
       "fat": 11
+    },
+    {
+      "meal": "운동",
+      "food": "스트레칭 8.76667분 (분당 1.8kcal)",
+      "kcal": -16,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "랫풀다운 5세트 (50kg×5, 50kg×7, 50kg×6, 50kg×5, 50kg×5)",
+      "kcal": -45,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "백익스텐션 2세트 (25kg×10, 25kg×10)",
+      "kcal": -20,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "싱글암 케이블 로우 6세트 (170lbs×7, 170lbs×7, 170lbs×7, 170lbs×7, 170lbs×6, 170lbs×6)",
+      "kcal": -61,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "벤치프레스 5세트 (40kg×12, 40kg×8, 40kg×6, 40kg×8, 40kg×10)",
+      "kcal": -45,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "행잉 레그 레이즈 2세트 (맨몸×10, 맨몸×7)",
+      "kcal": -17,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "체스트 서포티드 T바 로우 3세트 (20kg×9, 20kg×7, 20kg×10)",
+      "kcal": -24,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "오버헤드프레스 2세트 (12kg×6, 12kg×6)",
+      "kcal": -15,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "레터럴 레이즈 2세트 (12kg×6, 12kg×6)",
+      "kcal": -15,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "리어델트 리버스 플라이 2세트 (12kg×5, 12kg×6)",
+      "kcal": -15,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
     }
   ]
 }
