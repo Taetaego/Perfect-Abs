@@ -24,6 +24,7 @@
  "legpress":           {"name": "레그프레스",          "rom": 0.50, "bw": 0},
  "legextension":       {"name": "레그 익스텐션",       "rom": 0.40, "bw": 0},
  "legcurl":            {"name": "레그 컬",             "rom": 0.40, "bw": 0},
+ "seatedlegcurl":      {"name": "시티드 레그 컬",      "rom": 0.40, "bw": 0},
  "romaniandeadlift":   {"name": "루마니안 데드리프트", "rom": 0.50, "bw": 0.40},
  "deadlift":           {"name": "데드리프트",          "rom": 0.60, "bw": 0.40},
  "bicepcurl":          {"name": "바이셉 컬",           "rom": 0.45, "bw": 0},
