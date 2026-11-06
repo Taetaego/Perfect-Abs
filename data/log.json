@@ -3403,6 +3403,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "올리브유 1스푼",
+      "kcal": 119,
+      "carb": 0,
+      "protein": 0,
+      "fat": 14
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
     }
   ]
 }
