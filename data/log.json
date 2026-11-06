@@ -3387,6 +3387,30 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "올리브유 2스푼",
+      "kcal": 238,
+      "carb": 0,
+      "protein": 0,
+      "fat": 28
+    },
+    {
+      "meal": "운동",
+      "food": "스테어머신 40분 (기기 수치 ×0.75, 분당 11kcal)",
+      "kcal": -440,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "러닝머신 3.2km 17분18초 (시속 11.1km, MET 10.5−1 순소모)",
+      "kcal": -228,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
     }
   ]
 }
