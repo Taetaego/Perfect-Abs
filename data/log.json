@@ -3765,6 +3765,46 @@
       "carb": 20,
       "protein": 14,
       "fat": 14
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 550g",
+      "kcal": 204,
+      "carb": 42.9,
+      "protein": 14.9,
+      "fat": 1.6
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 230g",
+      "kcal": 248,
+      "carb": 0,
+      "protein": 53.7,
+      "fat": 3.1
+    },
+    {
+      "meal": "식사",
+      "food": "카레가루 1스푼 (사용자 제품 라벨 100g당 405kcal, 1스푼=10g)",
+      "kcal": 40,
+      "carb": 5.8,
+      "protein": 0.7,
+      "fat": 1.6
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "식사",
+      "food": "곤약 500g (곤약(쌀·젤리형) 100g≈6kcal, 대부분 식이섬유)",
+      "kcal": 30,
+      "carb": 5,
+      "protein": 0.5,
+      "fat": 0
     }
   ]
 }
