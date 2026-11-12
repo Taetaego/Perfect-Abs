@@ -3806,5 +3806,95 @@
       "protein": 80.5,
       "fat": 5.2
     }
+  ],
+  "2026-11-12": [
+    {
+      "meal": "운동",
+      "food": "스트레칭 4.23333분 (분당 1.8kcal)",
+      "kcal": -8,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "랫풀다운 5세트 (50kg×5, 45kg×6, 45kg×6, 45kg×5, 45kg×7)",
+      "kcal": -45,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "백익스텐션 2세트 (20kg×12, 20kg×10)",
+      "kcal": -20,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "싱글암 케이블 로우 6세트 (170lbs×7, 170lbs×7, 170lbs×7, 170lbs×7, 170lbs×7, 170lbs×7)",
+      "kcal": -62,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "체스트프레스 1세트 (90lbs×7)",
+      "kcal": -9,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "벤치프레스 5세트 (40kg×8, 40kg×8, 40kg×6, 40kg×6, 40kg×5)",
+      "kcal": -42,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "행잉 레그 레이즈 2세트 (맨몸×10, 맨몸×6)",
+      "kcal": -17,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "체스트 서포티드 T바 로우 3세트 (20kg×7, 20kg×6, 20kg×7)",
+      "kcal": -23,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "오버헤드프레스 3세트 (12kg×6, 12kg×6, 12kg×6)",
+      "kcal": -22,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "레터럴 레이즈 3세트 (12kg×6, 12kg×6, 12kg×6)",
+      "kcal": -22,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "리어델트 리버스 플라이 3세트 (12kg×6, 12kg×6, 12kg×6)",
+      "kcal": -22,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    }
   ]
 }
