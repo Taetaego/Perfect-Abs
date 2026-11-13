@@ -3944,5 +3944,71 @@
       "protein": 0,
       "fat": 0
     }
+  ],
+  "2026-11-13": [
+    {
+      "meal": "운동",
+      "food": "스트레칭 15분 (분당 1.8kcal)",
+      "kcal": -27,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "힙 어덕션 1세트 (330lbs×11)",
+      "kcal": -13,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "시티드 레그 컬 3세트 (130lbs×9, 130lbs×7, 130lbs×8)",
+      "kcal": -28,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "레그 익스텐션 4세트 (210lbs×10, 210lbs×7, 210lbs×6, 210lbs×9)",
+      "kcal": -43,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "행잉 레그 레이즈 2세트 (맨몸×10, 맨몸×6)",
+      "kcal": -17,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "크로스바디 해머컬 3세트 (28kg×6, 28kg×6, 28kg×7)",
+      "kcal": -24,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "바이셉 컬 4세트 (28kg×5, 24kg×8, 24kg×6, 24kg×4)",
+      "kcal": -31,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "싱글암 트라이셉 푸시다운 8세트 (20kg×10, 20kg×10, 20kg×6, 20kg×6, 15kg×8, 15kg×8, 15kg×7, 15kg×7)",
+      "kcal": -61,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    }
   ]
 }
