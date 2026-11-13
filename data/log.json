@@ -4009,6 +4009,78 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 2스쿱 (라벨 106kcal/단20g)",
+      "kcal": 212,
+      "carb": 4,
+      "protein": 40,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 300g",
+      "kcal": 324,
+      "carb": 0,
+      "protein": 70,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 400g",
+      "kcal": 148,
+      "carb": 31.2,
+      "protein": 10.8,
+      "fat": 1.2
+    },
+    {
+      "meal": "식사",
+      "food": "곤약 500g (곤약(쌀·젤리형) 100g≈6kcal, 대부분 식이섬유)",
+      "kcal": 30,
+      "carb": 5,
+      "protein": 0.5,
+      "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "마이프로틴 임팩트 웨이 1스쿱 (라벨 106kcal/단20g)",
+      "kcal": 106,
+      "carb": 2,
+      "protein": 20,
+      "fat": 2
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "운동",
+      "food": "스테어머신 60분 (기기 수치 ×0.75, 분당 11kcal)",
+      "kcal": -660,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
     }
   ]
 }
