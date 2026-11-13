@@ -4081,6 +4081,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "간식",
+      "food": "뉴트리션팩토리 프로틴 1스쿱 (30g 라벨 기준)",
+      "kcal": 120,
+      "carb": 4,
+      "protein": 23,
+      "fat": 1.5
     }
   ]
 }
