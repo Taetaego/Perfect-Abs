@@ -2,7 +2,7 @@ name: Deploy Diet page
 
 on:
   push:
-    branches: [ccr-c0a6bca3-fu3lns, ccr-15eef771-tkwt8m, main]
+    branches: ['**']   # 어느 브랜치로 푸시해도 배포
     paths:
       - data/log.json
       - site/**
@@ -30,6 +30,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # 세션마다 브랜치가 달라도 data/log.json이 가장 최근에 바뀐 브랜치를 배포한다
+      # (예약 실행이나 오래된 브랜치 푸시가 옛 기록으로 덮어쓰지 않게)
+      - name: Pick branch with newest log
+        run: |
+          best=""; bt=0
+          for b in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin | grep -v '/HEAD$'); do
+            t=$(git log -1 --format=%ct "$b" -- data/log.json 2>/dev/null || echo 0)
+            if [ "${t:-0}" -gt "$bt" ]; then bt=$t; best=$b; fi
+          done
+          echo "deploy from: $best"
+          [ -n "$best" ] && git checkout -q --detach "$best"
       - name: Build site data
         run: python3 scripts/build_site.py _site
       - uses: actions/configure-pages@v5
