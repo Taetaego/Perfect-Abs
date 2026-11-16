@@ -4164,5 +4164,39 @@
       "protein": 3,
       "fat": 6
     }
+  ],
+  "2026-11-15": [
+    {
+      "meal": "반찬",
+      "food": "배추김치 50g",
+      "kcal": 12,
+      "carb": 2,
+      "protein": 0.9,
+      "fat": 0.2
+    },
+    {
+      "meal": "어제",
+      "food": "순대 500g 1봉(라벨 100g당 181kcal)",
+      "kcal": 905,
+      "carb": 185,
+      "protein": 10,
+      "fat": 14.5
+    },
+    {
+      "meal": "어제",
+      "food": "닭도리탕 1인분",
+      "kcal": 500,
+      "carb": 35,
+      "protein": 40,
+      "fat": 22
+    },
+    {
+      "meal": "어제",
+      "food": "오징어조림 반찬",
+      "kcal": 70,
+      "carb": 6,
+      "protein": 8,
+      "fat": 2
+    }
   ]
 }
