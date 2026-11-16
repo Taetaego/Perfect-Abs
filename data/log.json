@@ -4263,6 +4263,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "간식",
+      "food": "프로틴 3kg 통 1스쿱 (1스쿱=50g 라벨 196kcal/단35g)",
+      "kcal": 196,
+      "carb": 10,
+      "protein": 35,
+      "fat": 1.7
     }
   ]
 }
