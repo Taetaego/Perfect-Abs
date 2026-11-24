@@ -4581,6 +4581,22 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "스태어머신 2640steps 40분",
+      "kcal": -440,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "러닝머신 3.2km 17분18초",
+      "kcal": -204,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
     }
   ],
   "2026-11-22": [
