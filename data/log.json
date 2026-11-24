@@ -4573,6 +4573,46 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 530g",
+      "kcal": 196,
+      "carb": 41.3,
+      "protein": 14.3,
+      "fat": 1.6
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 300g",
+      "kcal": 324,
+      "carb": 0,
+      "protein": 70,
+      "fat": 4
+    },
+    {
+      "meal": "간식",
+      "food": "우유 200ml",
+      "kcal": 130,
+      "carb": 10,
+      "protein": 7,
+      "fat": 7
+    },
+    {
+      "meal": "간식",
+      "food": "프로틴 3kg 통 5스쿱 (1스쿱=50g 라벨 196kcal/단35g)",
+      "kcal": 980,
+      "carb": 50,
+      "protein": 175,
+      "fat": 8.5
+    },
+    {
+      "meal": "식사",
+      "food": "잡채 500g (추정)",
+      "kcal": 1750,
+      "carb": 100,
+      "protein": 50,
+      "fat": 75
     }
   ],
   "2026-11-22": [
