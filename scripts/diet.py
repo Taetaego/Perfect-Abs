@@ -28,10 +28,10 @@ SEC3 = "## 3. 식단 기록"
 SEC4 = "## 4. 주간 요약 (누적용)"
 SEC5 = "## 5. 메모"
 import os
-TRAILER = "" if os.environ.get("DIET_NO_TRAILER") else (
-    "\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>\n"
-    "Claude-Session: https://claude.ai/code/session_01HjTMLUsNV4U4CjakWz4E4R"
-)
+# 커밋 꼬리말: 기본은 없음. 붙이려면 환경 변수 DIET_TRAILER에 적는다(예: "Co-Authored-By: 이름 <메일>").
+TRAILER = ("\n\n" + os.environ["DIET_TRAILER"]) if os.environ.get("DIET_TRAILER") else ""
+# 기록과 함께 올리는 파일. 프리셋을 고치고 커밋을 잊어도 다음 기록 때 같이 올라간다.
+PUSH_FILES = ["data/log.json", "docs/diet_log.md", "scripts/presets.json", "scripts/exercises.json"]
 
 
 def half_up(x):
@@ -169,8 +169,10 @@ def sync(quiet=False):
     if git("fetch", "-q", "origin", branch, check=False).returncode != 0:
         say("동기화 실패: 원격에서 가져오지 못했다 (네트워크).")
         return False
-    if git("status", "--porcelain", "--untracked-files=no").stdout.strip():
-        say("동기화 실패: 커밋 안 된 변경이 있다. 먼저 정리해야 한다.")
+    dirty = [l[3:].strip('"') for l in git("-c", "core.quotepath=false", "status", "--porcelain", "--untracked-files=no").stdout.splitlines()]
+    dirty = [f for f in dirty if f not in PUSH_FILES[2:]]   # 프리셋 변경은 이번 기록과 함께 올린다
+    if dirty:
+        say("동기화 실패: 커밋 안 된 변경이 있다. 먼저 정리해야 한다: " + ", ".join(dirty))
         return False
     behind = int(git("rev-list", "--count", f"HEAD..origin/{branch}").stdout.strip() or 0)
     ahead = int(git("rev-list", "--count", f"origin/{branch}..HEAD").stdout.strip() or 0)
@@ -185,7 +187,7 @@ def sync(quiet=False):
 
 def push(msg):
     branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
-    git("add", "data/log.json", "docs/diet_log.md")
+    git("add", *PUSH_FILES)
     git("commit", "-q", "-m", msg + TRAILER)
     r = git("push", "-u", "origin", branch, check=False)
     if r.returncode != 0:
