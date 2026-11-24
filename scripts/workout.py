@@ -18,7 +18,7 @@ def key_of(name):
 
 def set_kcal(ex, kg, reps):
     load = kg + BW * ex["bw"]
-    work = ECC * load * 9.81 * ex["rom"] * reps / EFF / 418.4
+    work = ECC * load * 9.81 * ex["rom"] * reps / EFF / 4184
     return BASE + work
 
 

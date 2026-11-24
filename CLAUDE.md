@@ -1,5 +1,7 @@
 # Perfect Abs 식단 기록 규칙
 
+**절대 하지 않는 것 (어느 모델이든):** ① `data/log.json`·`docs/diet_log.md`를 직접 고치거나 직접 커밋하지 않는다(`.githooks/pre-commit`이 거부한다. 기록·취소는 `scripts/diet.py`, 운동은 `scripts/workout.py`로만). ② `scripts/workout.py`·`scripts/diet_core.py`의 계산식과 숫자를 바꾸지 않는다(값이 이상해 보여도 멈추고 사용자에게 알린다. 2026-11-24에 `÷4184`를 `÷418.4`로 바꿔 운동 소모가 3배로 부풀었다). ③ 같은 음식을 두 번 넣지 않는다(넣기 전에 `diet.py list --date 날짜`로 그날 기록을 본다). `git commit --no-verify`도 쓰지 않는다.
+
 사용자가 음식 사진, 먹은 음식 설명, 운동, 질문을 보내면 아래대로 처리한다. 자세한 규칙은 `docs/rules_detail.md`(평소엔 읽지 않는다).
 
 1. 음식의 kcal와 탄·단·지를 추정한다. 외식·배달은 평균 추정치이고 오차는 ±10% 내외라고 표기한다(뷔페 등 눈대중은 ±25%).

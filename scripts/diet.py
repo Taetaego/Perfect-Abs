@@ -157,7 +157,9 @@ def build_docs(log):
 
 # ---------- git ----------
 def git(*args, check=True):
-    return subprocess.run(["git", *args], cwd=core.ROOT, check=check, capture_output=True, text=True)
+    # DIET_PY=1: 기록 파일 커밋을 diet.py에만 허락하는 .githooks/pre-commit 통과용
+    return subprocess.run(["git", *args], cwd=core.ROOT, check=check, capture_output=True, text=True,
+                          env={**os.environ, "DIET_PY": "1"})
 
 
 def sync(quiet=False):
@@ -165,6 +167,7 @@ def sync(quiet=False):
     def say(msg):
         if not quiet:
             print(msg)
+    git("config", "core.hooksPath", ".githooks", check=False)   # 직접 커밋 막는 장치를 이 사본에 켠다
     branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
     if git("fetch", "-q", "origin", branch, check=False).returncode != 0:
         say("동기화 실패: 원격에서 가져오지 못했다 (네트워크).")

@@ -1,0 +1,12 @@
+#!/bin/sh
+# 기록 파일(data/log.json, docs/diet_log.md)은 scripts/diet.py만 커밋할 수 있다.
+# 손으로(또는 AI가 직접) 고친 기록이 올라가 중복·계산 오류가 생기는 것을 막는다.
+[ "$DIET_PY" = "1" ] && exit 0
+bad=$(git diff --cached --name-only | grep -E '^(data/log\.json|docs/diet_log\.md)$')
+[ -z "$bad" ] && exit 0
+echo "커밋 거부: 기록 파일을 직접 고쳐 커밋할 수 없다."
+echo "$bad" | sed 's/^/  - /'
+echo "되돌리기: git restore --staged --worktree data/log.json docs/diet_log.md"
+echo "기록은 반드시: python3 scripts/diet.py add --push ... (취소는 rm --push, 운동은 scripts/workout.py --add --push)"
+echo "diet.py로 안 되는 수정이면 멈추고 사용자에게 알린다."
+exit 1
