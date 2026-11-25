@@ -156,7 +156,7 @@ const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0;
 const dayLabel = s => { const d = parse(s); return `${d.getMonth()+1}.${d.getDate()}`; };
 
 let DATA, BY = {}, GOAL, DD = '';
-const S = { tab:'day', date:null };
+const S = { tab:'day', date:null, wk:0 };
 const lastD = () => DATA.days[DATA.days.length-1].d;
 const todayKST = () => iso(new Date(Date.now() + (new Date().getTimezoneOffset() + 540 - 240) * 6e4));   // KST, 새벽 4시 전은 전날
 const live = x => x.d === lastD() && x.d === todayKST();   // 오늘 진행 중
@@ -178,6 +178,7 @@ $('#view').addEventListener('click', e => {
   const [a, v] = b.dataset.act.split(':');
   if (a === 'day') { S.date = v; S.tab = 'day'; syncTabs(); scrollTo({top:0}); }
   if (a === 'dnav') S.date = addDays(S.date, +v);
+  if (a === 'wnav') S.wk = Math.min(0, S.wk + (+v));
   render();
 });
 
@@ -274,9 +275,11 @@ function viewDay(){
 
 /* ---------- 주간: 최근 7일 ---------- */
 function viewWeek(){
-  const end = lastD(), days = [...Array(7).keys()].map(i => addDays(end, i-6));
-  const rs = days.map(s => BY[s] || null), have = rs.filter(Boolean);
-  let h = `<div class="datebar" style="grid-template-columns:1fr"><div class="dt"><b>최근 7일</b><span>${dayLabel(days[0])} – ${dayLabel(days[6])} · ${have.length}일 기록${have.some(live)?' · 오늘 제외 평균':''}</span></div></div>`;
+  const end = addDays(lastD(), S.wk*7), days = [...Array(7).keys()].map(i => addDays(end, i-6));
+  const rs = days.map(s => BY[s] || null), have = rs.filter(Boolean), canPrev = days[0] > DATA.days[0].d;
+  let h = `<div class="datebar"><button data-act="wnav:-1" ${canPrev?'':'disabled'} aria-label="이전 주">‹</button>
+    <div class="dt"><b>${S.wk ? (-S.wk)+'주 전' : '최근 7일'}</b><span>${dayLabel(days[0])} – ${dayLabel(days[6])} · ${have.length}일 기록${have.some(live)?' · 오늘 제외 평균':''}</span></div>
+    <button data-act="wnav:1" ${S.wk<0?'':'disabled'} aria-label="다음 주">›</button></div>`;
   if (!have.length) return h + '<div class="empty">기록이 없습니다.</div>';
   const fh = fin(have), o = avgObj(fh);
   h += topBlock(o, `일평균 · ${fh.length}일 기준`) + statTiles(fh, 2);
