@@ -4827,6 +4827,54 @@
       "carb": 0,
       "protein": 0,
       "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "스태어머신 4030steps 1시간",
+      "kcal": -662,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "운동",
+      "food": "러닝머신 1km 4분 (시속 15km)",
+      "kcal": -70,
+      "carb": 0,
+      "protein": 0,
+      "fat": 0
+    },
+    {
+      "meal": "간식",
+      "food": "프로틴 3kg 통 1스쿱 (1스쿱=50g 라벨 196kcal/단35g)",
+      "kcal": 196,
+      "carb": 10,
+      "protein": 35,
+      "fat": 1.7
+    },
+    {
+      "meal": "식사",
+      "food": "팽이버섯 530g",
+      "kcal": 196,
+      "carb": 41.3,
+      "protein": 14.3,
+      "fat": 1.6
+    },
+    {
+      "meal": "식사",
+      "food": "닭가슴살 (생) 300g",
+      "kcal": 324,
+      "carb": 0,
+      "protein": 70,
+      "fat": 4
+    },
+    {
+      "meal": "식사",
+      "food": "파닭 반반치킨 1마리 (배달 평균 추정 ±10%)",
+      "kcal": 2000,
+      "carb": 95,
+      "protein": 120,
+      "fat": 125
     }
   ]
 }
