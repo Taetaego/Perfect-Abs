@@ -23,13 +23,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  # 빌드와 배포를 다른 job으로 나눈다. 같은 job에서 업로드 직후 바로 배포하면
+  # 아티팩트가 아직 조회되지 않아 첫 배포가 매번 "No artifacts named github-pages"로 실패했다.
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment3.outputs.page_url || steps.deployment2.outputs.page_url || steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # 세션마다 브랜치가 달라도 data/log.json이 가장 최근에 바뀐 브랜치를 배포한다
@@ -45,22 +44,24 @@ jobs:
           [ -n "$best" ] && git checkout -q --detach "$best"
       - name: Build site data
         run: python3 scripts/build_site.py _site
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
-      # 깃허브 쪽 일시 오류("try again later", "artifact metadata failed")로 자주 실패해서 두 번 더 시도한다
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment2.outputs.page_url || steps.deployment.outputs.page_url }}
+    steps:
+      # 깃허브 쪽 일시 오류에 대비해 한 번만 더 시도한다
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         continue-on-error: true
       - if: steps.deployment.outcome == 'failure'
-        run: sleep 30
+        run: sleep 60
       - id: deployment2
         if: steps.deployment.outcome == 'failure'
-        uses: actions/deploy-pages@v4
-        continue-on-error: true
-      - if: steps.deployment2.outcome == 'failure'
-        run: sleep 90
-      - id: deployment3
-        if: steps.deployment2.outcome == 'failure'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
